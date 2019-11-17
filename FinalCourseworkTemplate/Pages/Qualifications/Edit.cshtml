@@ -1,0 +1,60 @@
+﻿@page
+@model FinalCourseworkTemplate.Pages.QualificationPages.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Qualification</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Qualification.ID" />
+            <div class="form-group">
+                <label asp-for="Qualification.QualName" class="control-label"></label>
+                <input asp-for="Qualification.QualName" class="form-control" />
+                <span asp-validation-for="Qualification.QualName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Qualification.PassMark" class="control-label"></label>
+                <input asp-for="Qualification.PassMark" class="form-control" />
+                <span asp-validation-for="Qualification.PassMark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Qualification.ParOrChi" class="control-label"></label>
+                <input asp-for="Qualification.ParOrChi" class="form-control" />
+                <span asp-validation-for="Qualification.ParOrChi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Qualification.Parent" class="control-label"></label>
+                <input asp-for="Qualification.Parent" class="form-control" />
+                <span asp-validation-for="Qualification.Parent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Qualification.NumChi" class="control-label"></label>
+                <input asp-for="Qualification.NumChi" class="form-control" />
+                <span asp-validation-for="Qualification.NumChi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Qualification.MinChiPass" class="control-label"></label>
+                <input asp-for="Qualification.MinChiPass" class="form-control" />
+                <span asp-validation-for="Qualification.MinChiPass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
