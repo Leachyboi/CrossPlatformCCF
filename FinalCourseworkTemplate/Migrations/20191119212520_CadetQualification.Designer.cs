@@ -3,14 +3,16 @@ using FinalCourseworkTemplate.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalCourseworkTemplate.Migrations
 {
     [DbContext(typeof(FinalCourseworkTemplateContext))]
-    partial class FinalCourseworkTemplateContextModelSnapshot : ModelSnapshot
+    [Migration("20191119212520_CadetQualification")]
+    partial class CadetQualification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
