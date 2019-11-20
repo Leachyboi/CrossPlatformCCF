@@ -12,6 +12,15 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(nameDis => nameDis.Cadets[0].Surname)
+            </th>
+            <th>
+                <text>Number of Qualifications</text>
+            </th>
+            <th>
+                <text>Qualification Names</text>
+            </th>
             @*<th>
                 @Html.DisplayNameFor(model => model.Qualification[0].Name)
             </th>
@@ -32,7 +41,16 @@
                     @cadet.Qualifications.Count
                 </td>
                 <td>
-                    @Model.ConcatenameQualifications(cadet)                
+                    @*@Model.ConcatenameQualifications(cadet)*@     
+                    <table class="table-secondary">
+                        @foreach (var qualification in cadet.Qualifications)
+                        {
+                            <tr>
+                                <td>@qualification.Qualification.Name</td>
+                                <td>@qualification.Qualification.PassMark</td>
+                            </tr>
+                         }
+                        </table>
                 </td>
             </tr>
         }

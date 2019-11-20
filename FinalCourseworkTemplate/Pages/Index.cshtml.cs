@@ -30,12 +30,12 @@ namespace FinalCourseworkTemplate.Pages
             var cadetqualifications = _context.CadetQualifications.ToList();
         }
 
-        public string ConcatenameQualifications(Cadet cadet)
-        {
-            var sb = new StringBuilder();
-            cadet.Qualifications.ToList().ForEach(qual => sb.Append(qual.Qualification.Name + " "));
+        //public string ConcatenameQualifications(Cadet cadet)
+        //{
+        //    var sb = new StringBuilder();
+        //    cadet.Qualifications.ToList().ForEach(qual => sb.Append(qual.Qualification.Name + " "));
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
     }
 }
