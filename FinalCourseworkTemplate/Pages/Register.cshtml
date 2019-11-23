@@ -1,0 +1,40 @@
+﻿@page
+@model FinalCourseworkTemplate.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Register</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Attendance
+            </th>
+            <th>
+                Date of Registration
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cadet in Model.RegisterViews)
+        {
+            <tr>
+                <td>
+                    @cadet.FullName
+                </td>
+                <td>
+                    @cadet.Attendance
+                </td>
+                <td>
+                    @cadet.RegDate
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -16,5 +16,7 @@ namespace FinalCourseworkTemplate.Models
         public DbSet<Qualification> Qualifications { get; set; }
         public DbSet<Cadet> Cadets { get; set; }
         public DbSet<CadetQualification> CadetQualifications { get; set; }
+        public DbSet<Register> Registers { get; set; }
+        public DbSet<CadetRegister> CadetRegisters { get; set; }
     }
 }

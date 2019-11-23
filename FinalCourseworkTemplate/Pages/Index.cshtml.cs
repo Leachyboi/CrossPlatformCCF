@@ -30,6 +30,7 @@ namespace FinalCourseworkTemplate.Pages
             var cadetqualifications = _context.CadetQualifications.ToList();
         }
 
+
         public string ConcatenameQualifications(Cadet cadet)
         {
             var sb = new StringBuilder();
