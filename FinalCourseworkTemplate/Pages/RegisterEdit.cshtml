@@ -1,0 +1,19 @@
+﻿@page
+@model FinalCourseworkTemplate.Pages.RegisterEditModel
+@{
+    ViewData["Title"] = "RegisterEdit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>RegisterEdit</h1>
+<form method="post">
+    <input type="checkbox" asp-for="Attend" value="true">Attended?
+    <button type="submit">Click Me</button>
+</form>
+
+@{
+    if (TempData.Peek("answer") != null)
+    {
+        <h3>Message Recieved: @TempData.Peek("answer")</h3>
+    }
+}
