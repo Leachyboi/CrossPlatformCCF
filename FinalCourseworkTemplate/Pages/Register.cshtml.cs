@@ -30,6 +30,7 @@ namespace FinalCourseworkTemplate.Pages
 
             foreach (var cadet in Cadets)
             {
+                //if no registers for a cadet, display their name
                 if (0 == cadet.Registers.Count)
                 {
                     RegisterViews.Add(
@@ -39,8 +40,10 @@ namespace FinalCourseworkTemplate.Pages
                         } 
                     );
                 }
+                //move data into the viewmodel
                 else
                 {
+                    //first reg is to only show name first time
                     var firstRegistration = true;
                     foreach (var register in cadet.Registers)
                     {
@@ -48,7 +51,7 @@ namespace FinalCourseworkTemplate.Pages
                             new RegisterView
                             {
                                 FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                Attendance = register.Register.Attended ? "Yes" : "No",
+                                Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
                                 RegDate = register.Register.DateOfReg.Date.ToShortDateString(),
                             }
                         );

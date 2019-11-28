@@ -6,14 +6,61 @@
 }
 
 <h1>RegisterEdit</h1>
+
+
+@*show table with checkboxes, allow submit button*@
 <form method="post">
-    <input type="checkbox" asp-for="Attend" value="true">Attended?
-    <button type="submit">Click Me</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Attendance
+                </th>
+                <th>
+                    Date of Registration
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(var i = 0; i < Model.RegisterViews.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="text" asp-for="@Model.RegisterViews[i].FullName" readonly="readonly"/>
+                    </td>
+                    <td>
+                        @*@cadet.Attendance*@
+                        Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance">
+                        @{
+                            if (TempData.Peek("answer") != null)
+                            {
+                                <h3>Message Recieved: @TempData.Peek("answer")</h3>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.RegisterViews[i].RegDate" readonly="readonly"/>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    Date: <input type="date" asp-for="Date" /><br />
+    <button type="submit">Submit</button>
 </form>
 
 @{
-    if (TempData.Peek("answer") != null)
+    if (TempData.Peek("useDate") != null)
     {
-        <h3>Message Recieved: @TempData.Peek("answer")</h3>
+        <h3>Date Entered: @TempData.Peek("useDate")</h3>
     }
 }
+@*@{
+        if (TempData.Peek("answer") != null)
+        {
+            <h3>Message Recieved: @TempData.Peek("answer")</h3>
+        }
+    }*@
