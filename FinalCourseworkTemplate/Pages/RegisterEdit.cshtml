@@ -25,30 +25,24 @@
             </tr>
         </thead>
         <tbody>
-            @for(var i = 0; i < Model.RegisterViews.Count; i++)
+            @for (var i = 0; i < Model.RegisterViews.Count; i++)
             {
                 <tr>
                     <td>
-                        <input type="text" asp-for="@Model.RegisterViews[i].FullName" readonly="readonly"/>
+                        <input type="text" asp-for="@Model.RegisterViews[i].FullName" readonly="readonly" />
                     </td>
                     <td>
                         @*@cadet.Attendance*@
                         Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance">
-                        @{
-                            if (TempData.Peek("answer") != null)
-                            {
-                                <h3>Message Recieved: @TempData.Peek("answer")</h3>
-                            }
-                        }
                     </td>
                     <td>
-                        <input type="text" asp-for="@Model.RegisterViews[i].RegDate" readonly="readonly"/>
+                        <input type="text" asp-for="@Model.RegisterViews[i].RegDate" readonly="readonly" />
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    Date: <input type="date" asp-for="Date" /><br />
+    Date: <input type="date" asp-for="date" /><br />
     <button type="submit">Submit</button>
 </form>
 
@@ -58,9 +52,10 @@
         <h3>Date Entered: @TempData.Peek("useDate")</h3>
     }
 }
-@*@{
-        if (TempData.Peek("answer") != null)
-        {
-            <h3>Message Recieved: @TempData.Peek("answer")</h3>
-        }
-    }*@
+
+@{
+    if (TempData.Peek("returnedString") != null)
+    {
+        <h3>Message Recieved: @TempData.Peek("returnedString")</h3>
+    }
+}

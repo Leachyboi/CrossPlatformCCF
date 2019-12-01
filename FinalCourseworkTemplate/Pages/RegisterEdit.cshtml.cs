@@ -6,6 +6,7 @@ using FinalCourseworkTemplate.Models;
 using FinalCourseworkTemplate.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalCourseworkTemplate.Pages
@@ -27,14 +28,17 @@ namespace FinalCourseworkTemplate.Pages
         //public string Attend { get; set; }
 
         [BindProperty]
-        public DateTime Date { get; set; } = DateTime.Today;
+        public DateTime date { get; set; } = DateTime.Today.Date;
 
         //variable that stores message to be shown on button input
         [TempData]
-        public string answer { get; set; }
+        public string returnedString { get; set; }
 
         [TempData]
         public string useDate { get; set; }
+
+        public string Surname;
+        public string KnownAs;
 
         public void OnGet()
         {
@@ -74,33 +78,93 @@ namespace FinalCourseworkTemplate.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //int countReg = _context.CadetRegisters.ToList().Count;
-            //for (int i=0; i<countReg; i++)
+            var registers = _context.Registers.Where(r => r.DateOfReg == new DateTime(2019, 11, 26)).ToList();
+
+            _context.Registers.Add(new Register {Attended = true, 
+            DateOfReg = new DateTime(),
+            });
+            await _context.SaveChangesAsync();
+            
+            //assigns value to variable depending on input
+            //foreach(var cadet in RegisterViews)
             //{
-            //    if(Attend.[i] == "true")
+            //    var s = $"{cadet.FullName}, {cadet.Attendance}, {cadet.RegDate}";
+            //    if (cadet.Attendance == "true")
             //    {
-            //        ("answer" + i) = "Yes";
+            //        answer = "Yes";
+            //    }
+            //    else
+            //    {
+            //        answer = "No";
             //    }
             //}
-            //assigns value to variable depending on input
-            //if (Attend == "true")
+            //string queryString =
+            //"SELECT CadetId, RegisterId FROM dbo.CadetRegisters;";
+
+            //string queryStringAttend =
+            //"SELECT Attended, DateOfReg FROM dbo.Register;";
+
+            //using (SqlConnection connection =
+            //           new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=CourseworkDatabase;Trusted_Connection=True;"))
             //{
-            //    answer = "Yes";
+            //    SqlCommand command =
+            //        new SqlCommand(queryString, connection);
+            //    connection.Open();
+
+            //    SqlDataReader reader = command.ExecuteReader();
+
+            //    // Call Read before accessing data.
+            //    while (reader.Read())
+            //    {
+            //        string regId = Convert.ToString(reader[0]);
+
+            //        SqlCommand commandAttended =
+            //        new SqlCommand(queryStringAttend, connection);
+            //        connection.Open();
+            //        SqlDataReader readerAttended = commandAttended.ExecuteReader();
+
+            //        returnedString = testFunc(regId, Convert.ToString(readerAttended[0]), Convert.ToDateTime(readerAttended[1]).Date);
+            //    }
+
+            //    // Call Close when done reading.
+            //    reader.Close();
+            //    connection.Close();
             //}
-            //else
-            //{
-            //    answer = "No";
-            //}
-            foreach(var cadet in RegisterViews)
-            {
-                var s = $"{cadet.FullName}, {cadet.Attendance}, {cadet.RegDate}";
-                if (cadet.Attendance == "true")
-                {
-                    Console.WriteLine("Yes");
-                }
-            }
-            useDate = Date.ToShortDateString();
+            //using (v
+            //    var register = DbConnection.Database.SqlQuery("SELECT * FROM Registers").ToList;
+            
+
+            //useDate = date.ToShortDateString();
             return RedirectToPage("./RegisterEdit");
+        }
+        
+        public string testFunc(string cadId, string attendOrNot, DateTime dateReg)
+        {
+            //string newQuery = $"SELECT CadetId, Surname, KnownAs FROM dbo.Cadets WHERE CadetId = {cadId};";
+
+            //using (SqlConnection connection
+            //    = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=CourseworkDatabase;Trusted_Connection=True;"))
+            //{
+            //    SqlCommand command =
+            //        new SqlCommand(newQuery, connection);
+            //    connection.Open();
+
+            //    SqlDataReader reader = command.ExecuteReader();
+
+            //    // Call Read before accessing data.
+            //    while (reader.Read())
+            //    {
+            //        Surname = Convert.ToString(reader[1]);
+            //        KnownAs = Convert.ToString(reader[2]);
+            //    }
+
+            //    // Call Close when done reading.
+            //    reader.Close();
+            //    connection.Close();
+            //}
+
+            string sentence = $"{KnownAs} {Surname} Attendance on {dateReg} is {attendOrNot}.";
+            return sentence;
         }
     }
 }

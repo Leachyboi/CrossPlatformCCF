@@ -8,6 +8,10 @@ namespace FinalCourseworkTemplate.Models
 {
     public class FinalCourseworkTemplateContext : DbContext
     {
+        public FinalCourseworkTemplateContext()
+        {
+        }
+
         public FinalCourseworkTemplateContext (DbContextOptions<FinalCourseworkTemplateContext> options)
             : base(options)
         {
