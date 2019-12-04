@@ -30,6 +30,9 @@ namespace FinalCourseworkTemplate.Pages
         [BindProperty]
         public DateTime date { get; set; } = DateTime.Today.Date;
 
+        [BindProperty]
+        public string name { get; set; }
+
         //variable that stores message to be shown on button input
         [TempData]
         public string returnedString { get; set; }
@@ -79,15 +82,45 @@ namespace FinalCourseworkTemplate.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             DateTime inputDate = date;
+            string inputName = name;
             var cadets = _context.Cadets.ToList();
             var registers = _context.Registers.ToList();
-            var cadetRegisters = _context.CadetRegisters.Where(r => r.Register.DateOfReg == inputDate).ToList();
+            var cadetRegisters = _context.CadetRegisters
+                .Where(r => r.RegisterId == r.Register.RegisterId 
+                && r.Register.DateOfReg == inputDate && r.Cadet.Surname == inputName).ToList();
 
-            string firstName = cadetRegisters[0].Cadet.KnownAs;
-            string lastName = cadetRegisters[0].Cadet.Surname;
-            string attend = cadetRegisters[0].Register.Attended.ToString();
-            string newDate = cadetRegisters[0].Register.DateOfReg.ToShortDateString();
+            if (cadetRegisters.Count > 0)
+            {
+                string firstName = cadetRegisters[0].Cadet.KnownAs;
+                string lastName = cadetRegisters[0].Cadet.Surname;
+                string attend = cadetRegisters[0].Register.Attended.ToString();
+                string newDate = cadetRegisters[0].Register.DateOfReg.ToShortDateString();
+                returnedString = stringCreate(firstName, lastName, newDate, attend);
+            }
 
+            else
+            {
+                var cadetQuer = _context.Cadets.Where(c => c.Surname == inputName).ToList();
+                var regQuer = _context.Registers.Where(r => r.DateOfReg == inputDate && r.Attended == true).ToList();
+                int cadID = cadetQuer[0].CadetId;
+                if (regQuer != null)
+                {
+                    int regID = regQuer[0].RegisterId;
+                    _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
+                    string firstName = cadetQuer[0].KnownAs;
+                    string lastName = cadetQuer[0].Surname;
+                    string attend = regQuer[0].Attended.ToString();
+                    string newDate = inputDate.ToShortDateString();
+                    returnedString = stringCreate(firstName, lastName, newDate, attend);
+                }
+                else
+                {
+                    //run new date creation
+                }
+            }
+
+            useDate = date.ToShortDateString();
+            return RedirectToPage("./RegisterEdit");
             //_context.Registers.Add(new Register {Attended = true, 
             //DateOfReg = new DateTime(),
             //});
@@ -143,13 +176,16 @@ namespace FinalCourseworkTemplate.Pages
                 var register = DbConnection.Database.SqlQuery("SELECT * FROM Registers").ToList;
 
             */
-            returnedString = $"{firstName} {lastName}'s Attendance on {newDate} is {attend}.";
-            useDate = date.ToShortDateString();
-            return RedirectToPage("./RegisterEdit");
         }
         
-        public string testFunc()
+
+
+        public string stringCreate(string fname, string sname, string shortdate, string attended)
         {
+            
+            string newString = $"{fname} {sname}'s Attendance on {shortdate} is {attended}."; ;
+            return newString;
+            
             /*string newQuery = $"SELECT CadetId, Surname, KnownAs FROM dbo.Cadets WHERE CadetId = {cadId};";
 
             using (SqlConnection connection
@@ -175,7 +211,7 @@ namespace FinalCourseworkTemplate.Pages
 
             string sentence = $"{KnownAs} {Surname} Attendance on {dateReg} is {attendOrNot}.";
             return sentence;*/
-            return "";
+            
         }
     }
 }
