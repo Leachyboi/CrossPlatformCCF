@@ -33,6 +33,9 @@ namespace FinalCourseworkTemplate.Pages
         [BindProperty]
         public string name { get; set; }
 
+        [BindProperty]
+        public bool Attend { get; set; }
+
         //variable that stores message to be shown on button input
         [TempData]
         public string returnedString { get; set; }
@@ -40,8 +43,6 @@ namespace FinalCourseworkTemplate.Pages
         [TempData]
         public string useDate { get; set; }
 
-        public string Surname;
-        public string KnownAs;
 
         public void OnGet()
         {
@@ -83,6 +84,7 @@ namespace FinalCourseworkTemplate.Pages
         {
             DateTime inputDate = date;
             string inputName = name;
+            bool attendance = Attend;
             var cadets = _context.Cadets.ToList();
             var registers = _context.Registers.ToList();
             var cadetRegisters = _context.CadetRegisters
@@ -101,10 +103,10 @@ namespace FinalCourseworkTemplate.Pages
             else
             {
                 var cadetQuer = _context.Cadets.Where(c => c.Surname == inputName).ToList();
-                var regQuer = _context.Registers.Where(r => r.DateOfReg == inputDate && r.Attended == true).ToList();
-                int cadID = cadetQuer[0].CadetId;
-                if (regQuer != null)
+                var regQuer = _context.Registers.Where(r => r.DateOfReg == inputDate && r.Attended == true/*bool variable*/).ToList();
+                if (regQuer.Count > 0 && cadetQuer.Count > 0)
                 {
+                    int cadID = cadetQuer[0].CadetId;
                     int regID = regQuer[0].RegisterId;
                     _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
                     string firstName = cadetQuer[0].KnownAs;
@@ -113,9 +115,17 @@ namespace FinalCourseworkTemplate.Pages
                     string newDate = inputDate.ToShortDateString();
                     returnedString = stringCreate(firstName, lastName, newDate, attend);
                 }
-                else
+                if (cadetQuer.Count > 0)
                 {
                     //run new date creation
+                    _context.Registers.Add(new Register { Attended = true, DateOfReg = inputDate });
+                    _context.Registers.Add(new Register { Attended = false, DateOfReg = inputDate });
+                    returnedString = 
+                        stringCreate(cadetQuer[0].KnownAs, cadetQuer[0].Surname, inputDate.ToShortDateString(), attendance.ToString());
+                }
+                else
+                {
+                    returnedString = "Cadet doesn't exist";
                 }
             }
 
