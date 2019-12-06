@@ -5,83 +5,125 @@
 }
 
 <h1>CadetCreator</h1>
-<form method="post">
-    <table class="table">
-        <thead>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Form
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Rank
+            </th>
+            <th>
+                Platoon
+            </th>
+            <th>
+                Section
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cadet in Model.Cadets)
+        {
             <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Year
-                </th>
-                <th>
-                    Form
-                </th>
-                <th>
-                    Gender
-                </th>
-                <th>
-                    Rank
-                </th>
-                <th>
-                    Platoon
-                </th>
-                <th>
-                    Section
-                </th>
+                <td>
+                    @cadet.Surname, @cadet.KnownAs
+                </td>
+                <td>
+                    @cadet.Year
+                </td>
+                <td>
+                    @cadet.Form
+                </td>
+                <td>
+                    @cadet.Gender
+                </td>
+                <td>
+                    @cadet.Rank
+                </td>
+                <td>
+                    @cadet.Platoon
+                </td>
+                <td>
+                    @cadet.Section
+                </td>
             </tr>
-        </thead>
+        }
+    </tbody>
+</table>
+<form method="post">
+    <table>
         <tbody>
-            @foreach (var cadet in Model.Cadets)
-            {
-                <tr>
-                    <td>
-                        @cadet.Surname, @cadet.KnownAs
-                    </td>
-                    <td>
-                        @cadet.Year
-                    </td>
-                    <td>
-                        @cadet.Form
-                    </td>
-                    <td>
-                        @cadet.Gender
-                    </td>
-                    <td>
-                        @cadet.Rank
-                    </td>
-                    <td>
-                        @cadet.Platoon
-                    </td>
-                    <td>
-                        @cadet.Section
-                    </td>
-                </tr>
-            }
             <tr>
                 <td>
-                    <input type="text" asp-for="lastName" size="20"/> <input type="text" asp-for="firstName" size="20"/>
+                    Surname
                 </td>
                 <td>
-                    <input type="text" asp-for="schoolYear" size="5"/>
+                    Known As
                 </td>
                 <td>
-                    <input type="text" asp-for="schoolForm" size="5"/>
+                    School Year
                 </td>
                 <td>
-                    <input type="text" asp-for="gender" size="5"/>
+                    School Form
                 </td>
                 <td>
-                    <input type="text" asp-for="rank" size="5"/>
+                    Gender
                 </td>
                 <td>
-                    <input type="text" asp-for="platoon" size="5"/>
+                    Rank
                 </td>
                 <td>
-                    <input type="text" asp-for="section" size="5"/>
+                    Platoon
+                </td>
+                <td>
+                    Section
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" asp-for="lastName" size="17" />
+                </td>
+                <td>
+                    <input type="text" asp-for="firstName" size="17" />
+                </td>
+                <td>
+                    <input type="number" asp-for="schoolYear" style="width: 6em" min="9" max="13" />
+                </td>
+                <td>
+                    <input type="text" asp-for="schoolForm" size="13" />
+                </td>
+                <td>
+                    <input type="text" asp-for="gender" size="15" />
+                </td>
+                <td>
+                    <input type="text" asp-for="rank" size="11" />
+                </td>
+                <td>
+                    <input type="number" asp-for="platoon" style="width: 9em" min="1" max="3" />
+                </td>
+                <td>
+                    <input type="number" asp-for="section" style="width: 9em" min="1" max="3" />
                 </td>
             </tr>
         </tbody>
     </table>
+    <button type="submit">Submit</button>
 </form>
+
+@{
+    if (TempData.Peek("tempString") != null)
+    {
+        <h3>@TempData.Peek("tempString")</h3>
+    }
+}

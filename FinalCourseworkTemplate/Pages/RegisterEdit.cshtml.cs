@@ -193,7 +193,7 @@ namespace FinalCourseworkTemplate.Pages
         public string stringCreate(string fname, string sname, string shortdate, string attended)
         {
             
-            string newString = $"{fname} {sname}'s Attendance on {shortdate} is {attended}."; ;
+            string newString = $"{fname} {sname}'s Attendance on {shortdate} is {attended}.";
             return newString;
             
             /*string newQuery = $"SELECT CadetId, Surname, KnownAs FROM dbo.Cadets WHERE CadetId = {cadId};";

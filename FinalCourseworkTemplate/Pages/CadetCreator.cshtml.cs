@@ -19,7 +19,7 @@ namespace FinalCourseworkTemplate
         [BindProperty]
         public string firstName { get; set; }
         [BindProperty]
-        public string schoolYear { get; set; }
+        public int schoolYear { get; set; } = 9;
         [BindProperty]
         public string schoolForm { get; set; }
         [BindProperty]
@@ -27,9 +27,12 @@ namespace FinalCourseworkTemplate
         [BindProperty]
         public string rank { get; set; }
         [BindProperty]
-        public string platoon { get; set; }
+        public int platoon { get; set; } = 1;
         [BindProperty]
-        public string section { get; set; }
+        public int section { get; set; } = 1;
+        
+        [TempData]
+        public string tempString { get; set; }
 
         public CadetCreatorModel(FinalCourseworkTemplateContext context)
         {
@@ -39,6 +42,34 @@ namespace FinalCourseworkTemplate
         public void OnGet()
         {
             Cadets = _context.Cadets.ToList();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            string fName = firstName;
+            string lName = lastName;
+            int sYear = schoolYear;
+            string sForm = schoolForm.ToString();
+            string gen = gender;
+            string iRank = rank;
+            int plat = platoon;
+            int sect = section;
+
+            var cadet = _context.Cadets
+                .Where(r => r.Surname == lName && r.KnownAs == fName && r.Gender == gender && r.Year == sYear).ToList();
+
+            if (cadet.Count > 0)
+            {
+                tempString = "Cadet already exists";
+            }
+            else
+            {
+                _context.Add(new Cadet { Surname = lName, KnownAs = fName,
+                    Year = sYear, Form = sForm, Gender = gen, Rank = iRank, Platoon = plat, Section = sect });
+                tempString = $"Name: {fName} {lName}, " +
+                    $"School Info: {sYear}, {sForm}, Gender: {gen}, Rank: {iRank}, Group: {plat}, {sect}";
+            }
+            return RedirectToPage("./CadetCreator");
         }
     }
 }
