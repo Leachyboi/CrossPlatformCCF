@@ -1,0 +1,87 @@
+﻿@page
+@model FinalCourseworkTemplate.CadetCreatorModel
+@{
+    ViewData["Title"] = "CadetCreator";
+}
+
+<h1>CadetCreator</h1>
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Year
+                </th>
+                <th>
+                    Form
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Rank
+                </th>
+                <th>
+                    Platoon
+                </th>
+                <th>
+                    Section
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cadet in Model.Cadets)
+            {
+                <tr>
+                    <td>
+                        @cadet.Surname, @cadet.KnownAs
+                    </td>
+                    <td>
+                        @cadet.Year
+                    </td>
+                    <td>
+                        @cadet.Form
+                    </td>
+                    <td>
+                        @cadet.Gender
+                    </td>
+                    <td>
+                        @cadet.Rank
+                    </td>
+                    <td>
+                        @cadet.Platoon
+                    </td>
+                    <td>
+                        @cadet.Section
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <input type="text" asp-for="lastName" size="20"/> <input type="text" asp-for="firstName" size="20"/>
+                </td>
+                <td>
+                    <input type="text" asp-for="schoolYear" size="5"/>
+                </td>
+                <td>
+                    <input type="text" asp-for="schoolForm" size="5"/>
+                </td>
+                <td>
+                    <input type="text" asp-for="gender" size="5"/>
+                </td>
+                <td>
+                    <input type="text" asp-for="rank" size="5"/>
+                </td>
+                <td>
+                    <input type="text" asp-for="platoon" size="5"/>
+                </td>
+                <td>
+                    <input type="text" asp-for="section" size="5"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
