@@ -24,10 +24,10 @@ namespace FinalCourseworkTemplate.Pages
         public IList<CadetQualification> CadetQualifications { get; set; }
 
         public async Task OnGetAsync()
-        {
-            Cadets = _context.Cadets.ToList();
+        {   
             var qualification = _context.Qualifications.ToList();
             var cadetqualifications = _context.CadetQualifications.ToList();
+            Cadets = _context.Cadets.Where(s => s.Qualifications.Count > 0).ToList();
         }
 
         //gives spaces between string
