@@ -13,21 +13,21 @@ namespace FinalCourseworkTemplate.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly FinalCourseworkTemplateContext _context;
-        public List<Cadet> Cadets { get; set; }
-        public IndexModel(ILogger<IndexModel> logger, FinalCourseworkTemplateContext context)
+        //private readonly FinalCourseworkTemplateContext _context;
+        //public List<Cadet> Cadets { get; set; }
+        public IndexModel(ILogger<IndexModel> logger/*, FinalCourseworkTemplateContext context*/)
         {
             _logger = logger;
-            _context = context;
+            //_context = context;
         }
 
-        public IList<CadetQualification> CadetQualifications { get; set; }
+        //public IList<CadetQualification> CadetQualifications { get; set; }
 
         public async Task OnGetAsync()
         {   
-            var qualification = _context.Qualifications.ToList();
-            var cadetqualifications = _context.CadetQualifications.ToList();
-            Cadets = _context.Cadets.Where(s => s.Qualifications.Count > 0).ToList();
+            //var qualification = _context.Qualifications.ToList();
+            //var cadetqualifications = _context.CadetQualifications.ToList();
+            //Cadets = _context.Cadets.Where(s => s.Qualifications.Count > 0).ToList();
         }
 
         //gives spaces between string

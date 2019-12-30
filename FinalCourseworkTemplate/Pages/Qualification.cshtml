@@ -1,15 +1,12 @@
 ﻿@page
-@model IndexModel
+@model FinalCourseworkTemplate.QualificationModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Qualification";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-@*
-<a asp-area="" asp-page="/CadetCreator">Cadet Creator</a> 
+<h1>Qualification</h1>
+
+<a asp-area="" asp-page="/CadetCreator">Cadet Creator</a>
 
 <table class="table">
     <thead>
@@ -36,7 +33,7 @@
                     @cadet.Qualifications.Count
                 </td>
                 <td>
-                     displays qualification names and passmarks with line breaks 
+                    @* displays qualification names and passmarks with line breaks *@
                     <table class="table-secondary bg-secondary">
                         @foreach (var qualification in cadet.Qualifications)
                         {
@@ -54,4 +51,3 @@
         }
     </tbody>
 </table>
-*@
