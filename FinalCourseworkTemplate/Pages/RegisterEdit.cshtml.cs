@@ -43,12 +43,49 @@ namespace FinalCourseworkTemplate.Pages
         [TempData]
         public string useDate { get; set; }
 
+        DateTime day;
+
 
         public void OnGet()
         {
             RegisterViews = new List<RegisterView>();
             Cadets = _context.Cadets.Include(c => c.Registers).ToList();
-            Registers = _context.Registers.ToList();
+
+            if(DateTime.Today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                day = DateTime.Today;
+            }
+            else
+            {
+                day = DateTime.Today.AddDays(-1);
+                while (day.DayOfWeek != DayOfWeek.Tuesday)
+                {
+                    day = day.AddDays(-1);
+                }
+            }
+
+            Registers = _context.Registers.Where(c => c.DateOfReg == day).ToList();
+            
+            if(Registers.Count == 0)
+            {
+                if(DateTime.Today.DayOfWeek == DayOfWeek.Tuesday)
+                {
+                    day = DateTime.Today;
+                }
+                else
+                {
+                    day = DateTime.Today.AddDays(-1);
+                    while(day.DayOfWeek != DayOfWeek.Tuesday) 
+                    {
+                        day = day.AddDays(-1);
+                    }
+                }
+                _context.Registers.Add(new Register { Attended = true, DateOfReg = day });
+                _context.Registers.Add(new Register { Attended = false, DateOfReg = day });
+                _context.SaveChanges();
+            }
+
+            Registers = _context.Registers.Where(c => c.DateOfReg == day).ToList();
 
             foreach (var cadet in Cadets)
             {
@@ -57,7 +94,9 @@ namespace FinalCourseworkTemplate.Pages
                     RegisterViews.Add(
                         new RegisterView
                         {
-                            FullName = cadet.Surname + cadet.KnownAs,
+                            FullName = cadet.Surname + ", " + cadet.KnownAs,
+                            Attendance = false.ToString(),
+                            RegDate = day.ToShortDateString(),
                         }
                     );
                 }
@@ -66,14 +105,28 @@ namespace FinalCourseworkTemplate.Pages
                     var firstRegistration = true;
                     foreach (var register in cadet.Registers)
                     {
-                        RegisterViews.Add(
-                            new RegisterView
-                            {
-                                FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
-                                RegDate = register.Register.DateOfReg.Date.ToShortDateString(),
-                            }
-                        );
+                        if (register.Register == null)
+                        {
+                            RegisterViews.Add(
+                                new RegisterView
+                                {
+                                    FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
+                                    Attendance = false.ToString(),
+                                    RegDate = day.ToShortDateString(),
+                                }
+                            );
+                        }
+                        else
+                        {
+                            RegisterViews.Add(
+                                new RegisterView
+                                {
+                                    FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
+                                    Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
+                                    RegDate = register.Register.DateOfReg.Date.ToShortDateString(),
+                                }
+                            );
+                        }
                         firstRegistration = false;
                     }
                 }
@@ -91,7 +144,19 @@ namespace FinalCourseworkTemplate.Pages
                 .Where(r => r.RegisterId == r.Register.RegisterId 
                 && r.Register.DateOfReg == inputDate && r.Cadet.Surname == inputName).ToList();
 
-            if (cadetRegisters.Count > 0)
+
+            foreach (var regEntry in RegisterViews)
+            {
+                string inpName = regEntry.FullName;
+                string[] splitName = inpName.Split(',');
+                string realName = $"{splitName[1]} {splitName[0]}";
+                var cadetQuer = _context.Cadets.Where(c => c.Surname == realName).ToList();
+                var regQuer = _context.Registers
+                    .Where(r => r.DateOfReg == day && r.Attended.ToString() == regEntry.Attendance).ToList();
+            }
+            returnedString = "Return";
+            return RedirectToPage("./RegisterEdit");
+            /*if (cadetRegisters.Count > 0)
             {
                 string firstName = cadetRegisters[0].Cadet.KnownAs;
                 string lastName = cadetRegisters[0].Cadet.Surname;
@@ -103,7 +168,7 @@ namespace FinalCourseworkTemplate.Pages
             else
             {
                 var cadetQuer = _context.Cadets.Where(c => c.Surname == inputName).ToList();
-                var regQuer = _context.Registers.Where(r => r.DateOfReg == inputDate && r.Attended == true/*bool variable*/).ToList();
+                var regQuer = _context.Registers.Where(r => r.DateOfReg == inputDate && r.Attended == true).ToList();
                 if (regQuer.Count > 0 && cadetQuer.Count > 0)
                 {
                     int cadID = cadetQuer[0].CadetId;
@@ -130,7 +195,9 @@ namespace FinalCourseworkTemplate.Pages
             }
 
             useDate = date.ToShortDateString();
-            return RedirectToPage("./RegisterEdit");
+            return RedirectToPage("./RegisterEdit");*/
+
+
             //_context.Registers.Add(new Register {Attended = true, 
             //DateOfReg = new DateTime(),
             //});
