@@ -52,7 +52,7 @@ namespace FinalCourseworkTemplate.Pages
                             {
                                 FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
                                 Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
-                                RegDate = register.Register.DateOfReg.Date.ToShortDateString(),
+                                RegDate = register.Register.DateOfReg.Date,
                             }
                         );
                         firstRegistration = false;

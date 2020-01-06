@@ -44,6 +44,7 @@ namespace FinalCourseworkTemplate.Pages
         public string useDate { get; set; }
 
         DateTime day;
+        int counttest;
 
 
         public void OnGet()
@@ -96,7 +97,7 @@ namespace FinalCourseworkTemplate.Pages
                         {
                             FullName = cadet.Surname + ", " + cadet.KnownAs,
                             Attendance = false.ToString(),
-                            RegDate = day.ToShortDateString(),
+                            RegDate = day,
                         }
                     );
                 }
@@ -107,25 +108,31 @@ namespace FinalCourseworkTemplate.Pages
                     {
                         if (register.Register == null)
                         {
-                            RegisterViews.Add(
-                                new RegisterView
-                                {
-                                    FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                    Attendance = false.ToString(),
-                                    RegDate = day.ToShortDateString(),
-                                }
-                            );
+                            if (firstRegistration == true)
+                            {
+                                RegisterViews.Add(
+                                    new RegisterView
+                                    {
+                                        FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
+                                        Attendance = false.ToString(),
+                                        RegDate = day,
+                                    }
+                                );
+                            }
                         }
                         else
                         {
-                            RegisterViews.Add(
-                                new RegisterView
-                                {
-                                    FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                    Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
-                                    RegDate = register.Register.DateOfReg.Date.ToShortDateString(),
-                                }
-                            );
+                            if (firstRegistration == true)
+                            {
+                                RegisterViews.Add(
+                                    new RegisterView
+                                    {
+                                        FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
+                                        Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
+                                        RegDate = register.Register.DateOfReg.Date,
+                                    }
+                                );
+                            }
                         }
                         firstRegistration = false;
                     }
@@ -135,26 +142,37 @@ namespace FinalCourseworkTemplate.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            DateTime inputDate = date;
-            string inputName = name;
-            bool attendance = Attend;
+            //DateTime inputDate = date;
+            //bool attendance = Attend;
             var cadets = _context.Cadets.ToList();
             var registers = _context.Registers.ToList();
-            var cadetRegisters = _context.CadetRegisters
-                .Where(r => r.RegisterId == r.Register.RegisterId 
-                && r.Register.DateOfReg == inputDate && r.Cadet.Surname == inputName).ToList();
+            //var cadetRegisters = _context.CadetRegisters.Where(r => r.RegisterId == r.Register.RegisterId && r.Register.DateOfReg == inputDate && r.Cadet.Surname == inputName).ToList();
 
 
             foreach (var regEntry in RegisterViews)
             {
                 string inpName = regEntry.FullName;
+                
                 string[] splitName = inpName.Split(',');
-                string realName = $"{splitName[1]} {splitName[0]}";
-                var cadetQuer = _context.Cadets.Where(c => c.Surname == realName).ToList();
+                string realName = $"{splitName[1]} {splitName[0]}".Trim();
+
+                var cadetQuer = _context.Cadets.Where(c => c.Surname == splitName[0].Trim() && c.KnownAs == splitName[1].Trim()).ToList();
+                var attendance = 0 == string.Compare(regEntry.Attendance, "true", StringComparison.CurrentCultureIgnoreCase);
                 var regQuer = _context.Registers
-                    .Where(r => r.DateOfReg == day && r.Attended.ToString() == regEntry.Attendance).ToList();
+                    .Where(r => r.DateOfReg == regEntry.RegDate && r.Attended == attendance).ToList();
+                if (regQuer.Count > 0 && cadetQuer.Count > 0)
+                {
+                    int cadID = cadetQuer[0].CadetId;
+                    int regID = regQuer[0].RegisterId;
+                    _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
+                    counttest++;
+                    returnedString = counttest + " Entry Created";                    
+                }
+                if(cadetQuer.Count == 0)
+                {
+                    returnedString = "Cadet doesn't exist";
+                }
             }
-            returnedString = "Return";
             return RedirectToPage("./RegisterEdit");
             /*if (cadetRegisters.Count > 0)
             {

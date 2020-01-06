@@ -9,6 +9,6 @@ namespace FinalCourseworkTemplate.ViewModel
     {
         public string FullName { get; set; }
         public string Attendance { get; set; }
-        public string RegDate { get; set; }
+        public DateTime RegDate { get; set; }
     }
 }
