@@ -6,61 +6,6 @@
 
 <h1>CadetCreator</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Year
-            </th>
-            <th>
-                Form
-            </th>
-            <th>
-                Gender
-            </th>
-            <th>
-                Rank
-            </th>
-            <th>
-                Platoon
-            </th>
-            <th>
-                Section
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var cadet in Model.Cadets)
-        {
-            <tr>
-                <td>
-                    @cadet.Surname, @cadet.KnownAs
-                </td>
-                <td>
-                    @cadet.Year
-                </td>
-                <td>
-                    @cadet.Form
-                </td>
-                <td>
-                    @cadet.Gender
-                </td>
-                <td>
-                    @cadet.Rank
-                </td>
-                <td>
-                    @cadet.Platoon
-                </td>
-                <td>
-                    @cadet.Section
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 <form method="post">
     <table>
         <tbody>
@@ -70,6 +15,9 @@
                 </td>
                 <td>
                     Known As
+                </td>
+                <td>
+                    Age
                 </td>
                 <td>
                     School Year
@@ -90,32 +38,38 @@
                     Section
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <input type="text" asp-for="lastName" size="17" />
-                </td>
-                <td>
-                    <input type="text" asp-for="firstName" size="17" />
-                </td>
-                <td>
-                    <input type="number" asp-for="schoolYear" style="width: 6em" min="9" max="13" />
-                </td>
-                <td>
-                    <input type="text" asp-for="schoolForm" size="13" />
-                </td>
-                <td>
-                    <input type="text" asp-for="gender" size="15" />
-                </td>
-                <td>
-                    <input type="text" asp-for="rank" size="11" />
-                </td>
-                <td>
-                    <input type="number" asp-for="platoon" style="width: 9em" min="1" max="3" />
-                </td>
-                <td>
-                    <input type="number" asp-for="section" style="width: 9em" min="1" max="3" />
-                </td>
-            </tr>
+            @for (var i = 0; i < Model.CadetViews.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="text" asp-for="@Model.CadetViews[i].lastName" size="17" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.CadetViews[i].firstName" size="17" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.CadetViews[i].yearsOld" style="width: 6em" min="13" max="100" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.CadetViews[i].schoolYear" style="width: 6em" min="9" max="13" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.CadetViews[i].schoolForm" size="13" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.CadetViews[i].cadGender" size="15" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.CadetViews[i].cadRank" size="11" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.CadetViews[i].cadPlatoon" style="width: 9em" min="1" max="3" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.CadetViews[i].cadSection" style="width: 9em" min="1" max="3" />
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
     <button type="submit">Submit</button>

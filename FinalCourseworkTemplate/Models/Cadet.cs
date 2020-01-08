@@ -16,6 +16,7 @@ namespace FinalCourseworkTemplate.Models
         public string Form { get; set; }
         public int Platoon { get; set; }
         public int Section { get; set; }
+        public int Age { get; set; }
         public List<CadetQualification> Qualifications { get; set; }
         public List<CadetRegister> Registers { get; set; }
     }

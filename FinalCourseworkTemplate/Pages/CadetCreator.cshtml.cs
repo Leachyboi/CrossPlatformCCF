@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinalCourseworkTemplate.Models;
+using FinalCourseworkTemplate.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,24 +14,10 @@ namespace FinalCourseworkTemplate
         private readonly FinalCourseworkTemplateContext _context;
 
         public IList<Cadet> Cadets { get; set; }
+        public IList<CadetView> CadetViews { get; set; }
 
-        [BindProperty]
-        public string lastName { get; set; }
-        [BindProperty]
-        public string firstName { get; set; }
-        [BindProperty]
-        public int schoolYear { get; set; } = 9;
-        [BindProperty]
-        public string schoolForm { get; set; }
-        [BindProperty]
-        public string gender { get; set; }
-        [BindProperty]
-        public string rank { get; set; }
-        [BindProperty]
-        public int platoon { get; set; } = 1;
-        [BindProperty]
-        public int section { get; set; } = 1;
-        
+        int counttest;
+
         [TempData]
         public string tempString { get; set; }
 
@@ -41,54 +28,69 @@ namespace FinalCourseworkTemplate
 
         public void OnGet()
         {
+            CadetViews = new List<CadetView>();
             Cadets = _context.Cadets.ToList();
+            for (var i = 0; i < 10; i++)
+            {
+                CadetViews.Add(
+                    new CadetView
+                    {
+                        firstName = "",
+                        lastName ="",
+                        yearsOld = 13+i,
+                        cadGender = "",
+                        schoolYear = 9,
+                        schoolForm = "",
+                        cadRank = "",
+                        cadPlatoon = 1,
+                        cadSection =1,
+                    }
+                );
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //string fName = firstName;
-            //string lName = lastName;
-            //int sYear = schoolYear;
-            //string sForm = schoolForm.ToString();
-            //string gen = gender;
-            //string iRank = rank;
-            //int plat = platoon;
-            //int sect = section;
-            bool emptyVal = false;
-
-            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) ||
-                string.IsNullOrEmpty(schoolForm) || string.IsNullOrEmpty(gender) ||
-                string.IsNullOrEmpty(rank))
+            foreach (var cadEntry in CadetViews)
             {
-                tempString = "Enter a value";
-                emptyVal = true;
-            }
 
-            if(emptyVal == false)
-            {
-                var cadet = _context.Cadets
-                    .Where(r => r.Surname == lastName && r.KnownAs == firstName && r.Gender == gender && r.Year == schoolYear).ToList();
+                bool emptyVal = false;
 
-                if (cadet.Count > 0)
+                if (string.IsNullOrEmpty(cadEntry.firstName) || string.IsNullOrEmpty(cadEntry.lastName) ||
+                    string.IsNullOrEmpty(cadEntry.schoolForm) || string.IsNullOrEmpty(cadEntry.cadGender) ||
+                    string.IsNullOrEmpty(cadEntry.cadRank))
                 {
-                    tempString = "Cadet already exists";
+                    tempString = "Enter a value";
+                    emptyVal = true;
                 }
-                else
+
+                if (emptyVal == false)
                 {
-                    _context.Add(new Cadet
+                    var cadet = _context.Cadets
+                        .Where(r => r.Surname == cadEntry.lastName 
+                        && r.KnownAs == cadEntry.firstName && r.Gender == cadEntry.cadGender && r.Year == cadEntry.schoolYear).ToList();
+
+                    if (cadet.Count > 0)
                     {
-                        Surname = lastName,
-                        KnownAs = firstName,
-                        Year = schoolYear,
-                        Form = schoolForm,
-                        Gender = gender,
-                        Rank = rank,
-                        Platoon = platoon,
-                        Section = section
-                    });
-                    await _context.SaveChangesAsync();
-                    tempString = $"Name: {firstName} {lastName}, " +
-                        $"School Info: Year {schoolYear}, {schoolForm.ToString()}, Gender: {gender}, Rank: {rank}, Group: {platoon}, {section}";
+                        tempString = "Cadet already exists";
+                    }
+                    else
+                    {
+                        _context.Add(new Cadet
+                        {
+                            Surname = cadEntry.lastName,
+                            KnownAs = cadEntry.firstName,
+                            Year = cadEntry.schoolYear,
+                            Form = cadEntry.schoolForm,
+                            Gender = cadEntry.cadGender,
+                            Rank = cadEntry.cadRank,
+                            Platoon = cadEntry.cadPlatoon,
+                            Section = cadEntry.cadSection
+                        });
+                        counttest++;
+                        //await _context.SaveChangesAsync();
+                        tempString = counttest + "Entries Created";
+                    }
                 }
             }
             return RedirectToPage("./CadetCreator");

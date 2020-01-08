@@ -1,0 +1,71 @@
+﻿@page
+@model FinalCourseworkTemplate.CadetModel
+@{
+    ViewData["Title"] = "Cadet";
+}
+
+<h1>Cadet</h1>
+
+<a asp-area="" asp-page="/CadetCreator">Cadet Creator</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Form
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Rank
+            </th>
+            <th>
+                Platoon
+            </th>
+            <th>
+                Section
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cadet in Model.Cadets)
+        {
+            <tr>
+                <td>
+                    @cadet.Surname, @cadet.KnownAs
+                </td>
+                <td>
+                    @cadet.Age
+                </td>
+                <td>
+                    @cadet.Year
+                </td>
+                <td>
+                    @cadet.Form
+                </td>
+                <td>
+                    @cadet.Gender
+                </td>
+                <td>
+                    @cadet.Rank
+                </td>
+                <td>
+                    @cadet.Platoon
+                </td>
+                <td>
+                    @cadet.Section
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
