@@ -6,3 +6,55 @@
 
 <h1>QualificationCreator</h1>
 
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Pass Mark
+                </th>
+                <th>
+                    Parent or Child?
+                </th>
+                <th>
+                    Parent
+                </th>
+                <th>
+                    Number of Children
+                </th>
+                <th>
+                    Minimum Children to Pass
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.QualificationViews.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="text" asp-for="@Model.QualificationViews[i].qualName" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.QualificationViews[i].passMark" min="0" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.QualificationViews[i].chiPar" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.QualificationViews[i].parent" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.QualificationViews[i].chiNum" min="0" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.QualificationViews[i].passNum" min="0" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit">Submit</button>
+</form>
