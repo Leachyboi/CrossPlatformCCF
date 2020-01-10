@@ -14,6 +14,8 @@ namespace FinalCourseworkTemplate
         private readonly FinalCourseworkTemplateContext _context;
 
         public IList<Cadet> Cadets { get; set; }
+
+        [BindProperty]
         public IList<CadetView> CadetViews { get; set; }
 
         int counttest;
@@ -29,15 +31,14 @@ namespace FinalCourseworkTemplate
         public void OnGet()
         {
             CadetViews = new List<CadetView>();
-            Cadets = _context.Cadets.ToList();
             for (var i = 0; i < 10; i++)
             {
                 CadetViews.Add(
                     new CadetView
                     {
                         firstName = "",
-                        lastName ="",
-                        yearsOld = 13+i,
+                        lastName = "",
+                        yearsOld = 13,
                         cadGender = "",
                         schoolYear = 9,
                         schoolForm = "",
@@ -80,6 +81,7 @@ namespace FinalCourseworkTemplate
                         {
                             Surname = cadEntry.lastName,
                             KnownAs = cadEntry.firstName,
+                            Age = cadEntry.yearsOld,
                             Year = cadEntry.schoolYear,
                             Form = cadEntry.schoolForm,
                             Gender = cadEntry.cadGender,
@@ -88,7 +90,7 @@ namespace FinalCourseworkTemplate
                             Section = cadEntry.cadSection
                         });
                         counttest++;
-                        //await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
                         tempString = counttest + "Entries Created";
                     }
                 }

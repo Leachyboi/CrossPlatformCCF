@@ -4,14 +4,16 @@ using FinalCourseworkTemplate.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinalCourseworkTemplate.Migrations
 {
     [DbContext(typeof(FinalCourseworkTemplateContext))]
-    partial class FinalCourseworkTemplateContextModelSnapshot : ModelSnapshot
+    [Migration("20200110100340_fullQual")]
+    partial class fullQual
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

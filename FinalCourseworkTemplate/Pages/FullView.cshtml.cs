@@ -12,17 +12,19 @@ namespace FinalCourseworkTemplate
     {
         private readonly FinalCourseworkTemplateContext _context;
         public List<Cadet> Cadets { get; set; }
+        
         public QualificationModel(FinalCourseworkTemplateContext context)
         {
             _context = context;
         }
 
+        public IList<Qualification> Qualifications { get; set; }
         public IList<CadetQualification> CadetQualifications { get; set; }
 
         public async Task OnGetAsync()
         {
-            var qualification = _context.Qualifications.ToList();
             var cadetqualifications = _context.CadetQualifications.ToList();
+            var qualification = _context.Qualifications.ToList();
             Cadets = _context.Cadets.Where(s => s.Qualifications.Count > 0).ToList();
         }
     }

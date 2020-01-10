@@ -2,13 +2,14 @@
 @model FinalCourseworkTemplate.CadetCreatorModel
 @{
     ViewData["Title"] = "CadetCreator";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <h1>CadetCreator</h1>
 
 <form method="post">
     <table>
-        <tbody>
+        <thead>
             <tr>
                 <td>
                     Surname
@@ -38,6 +39,8 @@
                     Section
                 </td>
             </tr>
+        </thead>
+        <tbody>
             @for (var i = 0; i < Model.CadetViews.Count; i++)
             {
                 <tr>

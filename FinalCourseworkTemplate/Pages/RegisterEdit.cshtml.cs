@@ -128,7 +128,7 @@ namespace FinalCourseworkTemplate.Pages
                                     new RegisterView
                                     {
                                         FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                        Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
+                                        Attendance = false.ToString(),// ? "Yes" : "No",
                                         RegDate = register.Register.DateOfReg.Date,
                                     }
                                 );
