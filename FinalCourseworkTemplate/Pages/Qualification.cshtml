@@ -1,0 +1,57 @@
+﻿@page
+@model FinalCourseworkTemplate.QualificationModel
+@{
+    ViewData["Title"] = "Qualification";
+}
+
+<h1>Qualification</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Pass Mark
+            </th>
+            <th>
+                Parent or Child?
+            </th>
+            <th>
+                Parent
+            </th>
+            <th>
+                Number of Children
+            </th>
+            <th>
+                Minimum Children to Pass
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var qual in Model.Qualifications)
+        {
+            <tr>
+                <td>
+                    @qual.Name
+                </td>
+                <td>
+                    @qual.PassMark
+                </td>
+                <td>
+                    @qual.ParOrChi
+                </td>
+                <td>
+                    @qual.Parent
+                </td>
+                <td>
+                    @qual.NumOfChi
+                </td>
+                <td>
+                    @qual.MinChiPass
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

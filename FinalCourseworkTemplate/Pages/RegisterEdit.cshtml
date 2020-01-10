@@ -42,17 +42,8 @@
             }
         </tbody>
     </table>
-    Date: <input type="date" asp-for="date" /><br />
-    Surname: <input type="text" asp-for="name" /><br />
     <button type="submit">Submit</button>
 </form>
-
-@{
-    if (TempData.Peek("useDate") != null)
-    {
-        <h3>Date Entered: @TempData.Peek("useDate")</h3>
-    }
-}
 
 @{
     if (TempData.Peek("returnedString") != null)

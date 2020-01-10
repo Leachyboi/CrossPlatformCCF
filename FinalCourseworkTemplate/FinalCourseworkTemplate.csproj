@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191119212201_CadetQualification.cs" />
     <Compile Remove="Migrations\20191119212201_CadetQualification.Designer.cs" />
+    <Compile Remove="Migrations\20200110100340_fullQual.cs" />
+    <Compile Remove="Migrations\20200110100340_fullQual.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

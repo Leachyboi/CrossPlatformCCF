@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalCourseworkTemplate.Migrations
 {
     [DbContext(typeof(FinalCourseworkTemplateContext))]
-    [Migration("20200110100340_fullQual")]
+    [Migration("20200110100823_fullQual")]
     partial class fullQual
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

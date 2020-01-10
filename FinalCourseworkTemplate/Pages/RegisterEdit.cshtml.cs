@@ -97,7 +97,7 @@ namespace FinalCourseworkTemplate.Pages
                         {
                             FullName = cadet.Surname + ", " + cadet.KnownAs,
                             Attendance = false.ToString(),
-                            RegDate = day,
+                            RegDate = day.Date,
                         }
                     );
                 }
@@ -115,7 +115,7 @@ namespace FinalCourseworkTemplate.Pages
                                     {
                                         FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
                                         Attendance = false.ToString(),
-                                        RegDate = day,
+                                        RegDate = day.Date,
                                     }
                                 );
                             }

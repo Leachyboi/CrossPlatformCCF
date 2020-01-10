@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FinalCourseworkTemplate
 {
-    public class QualificationModel : PageModel
+    public class FullViewModel : PageModel
     {
         private readonly FinalCourseworkTemplateContext _context;
         public List<Cadet> Cadets { get; set; }
         
-        public QualificationModel(FinalCourseworkTemplateContext context)
+        public FullViewModel(FinalCourseworkTemplateContext context)
         {
             _context = context;
         }

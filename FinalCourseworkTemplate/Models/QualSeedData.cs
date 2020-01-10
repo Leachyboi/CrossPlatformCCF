@@ -15,7 +15,6 @@ namespace FinalCourseworkTemplate.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<FinalCourseworkTemplateContext>>()))
             {
-                // Look for any movies.
                 /*
                                 if (context.Qualification.Any())
                                 {
