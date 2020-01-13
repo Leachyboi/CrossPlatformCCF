@@ -8,52 +8,75 @@
 
 <a asp-area="" asp-page="/QualificationCreator">Qualification Creator</a>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Pass Mark
-            </th>
-            <th>
-                Parent or Child?
-            </th>
-            <th>
-                Parent
-            </th>
-            <th>
-                Number of Children
-            </th>
-            <th>
-                Minimum Children to Pass
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var qual in Model.Qualifications)
-        {
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Pass Mark
+                </th>
+                <th>
+                    Parent or Child?
+                </th>
+                <th>
+                    Parent
+                </th>
+                <th>
+                    Number of Children
+                </th>
+                <th>
+                    Minimum Children to Pass
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var qual in Model.Qualifications)
+            {
+                <tr>
+                    <td>
+                        @qual.Name
+                    </td>
+                    <td>
+                        @qual.PassMark
+                    </td>
+                    <td>
+                        @qual.ParOrChi
+                    </td>
+                    <td>
+                        @qual.Parent
+                    </td>
+                    <td>
+                        @qual.NumOfChi
+                    </td>
+                    <td>
+                        @qual.MinChiPass
+                    </td>
+                </tr>
+            }
             <tr>
                 <td>
-                    @qual.Name
+                    <input type="text" asp-for="nameFilter" size="17" />
                 </td>
                 <td>
-                    @qual.PassMark
+                    <input type="number" asp-for="passMarkFilter" size="17" min="-1" />
                 </td>
                 <td>
-                    @qual.ParOrChi
+                    <input type="text" asp-for="parChiFilter" size="17" />
                 </td>
                 <td>
-                    @qual.Parent
+                    <input type="text" asp-for="parentFilter" size="17" />
                 </td>
                 <td>
-                    @qual.NumOfChi
+                    <input type="number" asp-for="numChiFilter" size="17" min="-1" />
                 </td>
                 <td>
-                    @qual.MinChiPass
+                    <input type="number" asp-for="minChiFilter" size="17" min="-1" />
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+    <button type="submit">Submit</button>
+</form>

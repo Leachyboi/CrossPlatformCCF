@@ -17,6 +17,8 @@ namespace FinalCourseworkTemplate
 
         [BindProperty]
         public IList<QualificationView> QualificationViews { get; set; }
+        [BindProperty]
+        public string filter { get; set; }
 
         int counttest;
 
@@ -30,6 +32,7 @@ namespace FinalCourseworkTemplate
 
         public void OnGet()
         {
+            Qualifications = new List<Qualification>();
             QualificationViews = new List<QualificationView>();
             for (var i = 0; i < 10; i++)
             {
