@@ -5,36 +5,50 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Register</h1>
+<h1>Registers</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Attendance
-            </th>
-            <th>
-                Date of Registration
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var cadet in Model.RegisterViews)
-        {
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Attendance
+                </th>
+                <th>
+                    Date of Registration
+                </th>
+            </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td>
-                    @cadet.FullName
+                    <input type="text" asp-for="nameFilter" size="17" />
                 </td>
                 <td>
-                    @cadet.Attendance
+                    <input type="text" asp-for="attendFilter" size="17" min="-1" />
                 </td>
                 <td>
-                    @cadet.RegDate
+                    <input type="date" asp-for="dateFilter" size="17" />
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
+            @foreach (var cadet in Model.RegisterViews)
+            {
+                <tr>
+                    <td>
+                        @cadet.FullName
+                    </td>
+                    <td>
+                        @cadet.Attendance
+                    </td>
+                    <td>
+                        @cadet.RegDate
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit">Submit</button>
+</form>

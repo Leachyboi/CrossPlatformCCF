@@ -61,7 +61,6 @@ namespace FinalCourseworkTemplate
                     string.IsNullOrEmpty(cadEntry.schoolForm) || string.IsNullOrEmpty(cadEntry.cadGender) ||
                     string.IsNullOrEmpty(cadEntry.cadRank))
                 {
-                    tempString = "Enter a value";
                     emptyVal = true;
                 }
 

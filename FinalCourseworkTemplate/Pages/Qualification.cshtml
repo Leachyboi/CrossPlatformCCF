@@ -33,6 +33,26 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td>
+                    <input type="text" asp-for="nameFilter" size="17" />
+                </td>
+                <td>
+                    <input type="number" asp-for="passMarkFilter" size="17" min="-1" />
+                </td>
+                <td>
+                    <input type="text" asp-for="parChiFilter" size="17" />
+                </td>
+                <td>
+                    <input type="text" asp-for="parentFilter" size="17" />
+                </td>
+                <td>
+                    <input type="number" asp-for="numChiFilter" size="17" min="-1" />
+                </td>
+                <td>
+                    <input type="number" asp-for="minChiFilter" size="17" min="-1" />
+                </td>
+            </tr>
             @foreach (var qual in Model.Qualifications)
             {
                 <tr>
@@ -56,26 +76,6 @@
                     </td>
                 </tr>
             }
-            <tr>
-                <td>
-                    <input type="text" asp-for="nameFilter" size="17" />
-                </td>
-                <td>
-                    <input type="number" asp-for="passMarkFilter" size="17" min="-1" />
-                </td>
-                <td>
-                    <input type="text" asp-for="parChiFilter" size="17" />
-                </td>
-                <td>
-                    <input type="text" asp-for="parentFilter" size="17" />
-                </td>
-                <td>
-                    <input type="number" asp-for="numChiFilter" size="17" min="-1" />
-                </td>
-                <td>
-                    <input type="number" asp-for="minChiFilter" size="17" min="-1" />
-                </td>
-            </tr>
         </tbody>
     </table>
     <button type="submit">Submit</button>

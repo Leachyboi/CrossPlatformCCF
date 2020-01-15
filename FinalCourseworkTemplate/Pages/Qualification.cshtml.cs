@@ -34,7 +34,7 @@ namespace FinalCourseworkTemplate
 
         public void OnGet()
         {
-            Qualifications = _context.Qualifications.ToList();
+            Qualifications = _context.Qualifications.OrderBy(s => s.Name).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -43,29 +43,32 @@ namespace FinalCourseworkTemplate
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
                 Qualifications = Qualifications.Where(s => 
-                0 == string.Compare(s.Name, nameFilter, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                0 == string.Compare(s.Name, nameFilter, 
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
             }
             if (passMarkFilter != -1)
             {
-                Qualifications = Qualifications.Where(s => s.PassMark == passMarkFilter).ToList();
+                Qualifications = Qualifications.Where(s => s.PassMark == passMarkFilter).OrderBy(s => s.Name).ToList();
             }
             if (!string.IsNullOrWhiteSpace(parChiFilter))
             {
                 Qualifications = Qualifications.Where(s =>
-                0 == string.Compare(s.ParOrChi, parChiFilter, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                0 == string.Compare(s.ParOrChi, parChiFilter, 
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
             }
             if (!string.IsNullOrWhiteSpace(parentFilter))
             {
                 Qualifications = Qualifications.Where(s =>
-                0 == string.Compare(s.Parent, parentFilter, StringComparison.CurrentCultureIgnoreCase)).ToList();
+                0 == string.Compare(s.Parent, parentFilter, 
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
             }
             if (numChiFilter != -1)
             {
-                Qualifications = Qualifications.Where(s => s.NumOfChi == numChiFilter).ToList();
+                Qualifications = Qualifications.Where(s => s.NumOfChi == numChiFilter).OrderBy(s => s.Name).ToList();
             }
             if (minChiFilter != -1)
             {
-                Qualifications = Qualifications.Where(s => s.MinChiPass == minChiFilter).ToList();
+                Qualifications = Qualifications.Where(s => s.MinChiPass == minChiFilter).OrderBy(s => s.Name).ToList();
             }
             return Page();// RedirectToPage("./Qualification");
         }

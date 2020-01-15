@@ -50,7 +50,7 @@ namespace FinalCourseworkTemplate.Pages
         public void OnGet()
         {
             RegisterViews = new List<RegisterView>();
-            Cadets = _context.Cadets.Include(c => c.Registers).ToList();
+            Cadets = _context.Cadets.Include(c => c.Registers).OrderBy(s => s.Surname).ToList();
 
             if(DateTime.Today.DayOfWeek == DayOfWeek.Tuesday)
             {
