@@ -10,6 +10,13 @@
 
 @*show table with checkboxes, allow submit button*@
 <form method="post">
+    Register Group:
+    <select asp-for="regGroup" size="1">
+        <option value="none">All</option>
+        <option value="years">Year</option>
+        <option value="platoons">Platoon</option>
+    </select>
+    <input type="number" asp-for="regGroupVal" size="5" min="1" max="13" />
     <table class="table">
         <thead>
             <tr>
@@ -30,6 +37,7 @@
                 <tr>
                     <td>
                         <input type="text" asp-for="@Model.RegisterViews[i].FullName" readonly="readonly" />
+                        @Model.RegisterViews[i].FullName
                     </td>
                     <td>
                         @*@cadet.Attendance*@

@@ -24,8 +24,12 @@ namespace FinalCourseworkTemplate.Pages
             _context = context;
         }
 
-        //[BindProperty]
-        //public string Attend { get; set; }
+        [BindProperty]
+        public string regGroup { get; set; }
+        [BindProperty]
+        public int regGroupVal { get; set; }
+        public string memStr { get; set; }
+        public int memNum { get; set; }
 
         [BindProperty]
         public DateTime date { get; set; } = DateTime.Today.Date;
@@ -144,36 +148,100 @@ namespace FinalCourseworkTemplate.Pages
         {
             //DateTime inputDate = date;
             //bool attendance = Attend;
-            var cadets = _context.Cadets.ToList();
-            var registers = _context.Registers.ToList();
+            RegisterViews = new List<RegisterView>();
+            Cadets = _context.Cadets.Include(c => c.Registers).OrderBy(s => s.Surname).ToList();
+            Registers = _context.Registers.ToList();
             //var cadetRegisters = _context.CadetRegisters.Where(r => r.RegisterId == r.Register.RegisterId && r.Register.DateOfReg == inputDate && r.Cadet.Surname == inputName).ToList();
-
-
-            foreach (var regEntry in RegisterViews)
+            if (memStr != regGroup && memNum != regGroupVal)
             {
-                string inpName = regEntry.FullName;
-                
-                string[] splitName = inpName.Split(',');
-                string realName = $"{splitName[1]} {splitName[0]}".Trim();
+                if (regGroup == "years")
+                {
+                    if (regGroupVal >= 9 && regGroupVal <= 13)
+                    {
+                        Cadets = Cadets.Where(s => s.Year == regGroupVal).ToList();
+                        memStr = "years";
+                        memNum = regGroupVal;
+                    }
+                    else
+                    {
+                    }
+                }
+                else if (regGroup == "platoons")
+                {
+                    if (regGroupVal >= 1 && regGroupVal <= 3)
+                    {
+                        Cadets = Cadets.Where(s => s.Platoon == regGroupVal).ToList();
+                        memStr = "platoons";
+                        memNum = regGroupVal;
+                    }
+                    else
+                    {
+                    }
+                }
+                else
+                {
+                    memStr = "All";
+                    memNum = 1;
+                }
 
-                var cadetQuer = _context.Cadets.Where(c => c.Surname == splitName[0].Trim() && c.KnownAs == splitName[1].Trim()).ToList();
-                var attendance = 0 == string.Compare(regEntry.Attendance, "true", StringComparison.CurrentCultureIgnoreCase);
-                var regQuer = _context.Registers
-                    .Where(r => r.DateOfReg == regEntry.RegDate && r.Attended == attendance).ToList();
-                if (regQuer.Count > 0 && cadetQuer.Count > 0)
+                foreach (var cadet in Cadets)
                 {
-                    int cadID = cadetQuer[0].CadetId;
-                    int regID = regQuer[0].RegisterId;
-                    _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
-                    counttest++;
-                    returnedString = counttest + " Entry Created";                    
+                    if (0 == cadet.Registers.Count)
+                    {
+                        RegisterViews.Add(
+                            new RegisterView
+                            {
+                                FullName = cadet.Surname + ", " + cadet.KnownAs,
+                                Attendance = false.ToString(),
+                                RegDate = day.Date,
+                            }
+                        );
+                    }
+                    else
+                    {
+                        {
+                            RegisterViews.Add(
+                                new RegisterView
+                                {
+                                    FullName = cadet.Surname + ", " + cadet.KnownAs,
+                                    Attendance = false.ToString(),// ? "Yes" : "No",
+                                    RegDate = DateTime.Today,
+                                }
+                            );
+                        }
+                    }
                 }
-                if(cadetQuer.Count == 0)
-                {
-                    returnedString = "Cadet doesn't exist";
-                }
+                return Page();
             }
-            return RedirectToPage("./RegisterEdit");
+
+            else
+            {
+                foreach (var regEntry in RegisterViews)
+                {
+                    string inpName = regEntry.FullName;
+
+                    string[] splitName = inpName.Split(',');
+                    string realName = $"{splitName[1]} {splitName[0]}".Trim();
+
+                    var cadetQuer = _context.Cadets.Where(c => c.Surname == splitName[0].Trim() && c.KnownAs == splitName[1].Trim()).ToList();
+                    var attendance = 0 == string.Compare(regEntry.Attendance, "true", StringComparison.CurrentCultureIgnoreCase);
+                    var regQuer = _context.Registers
+                        .Where(r => r.DateOfReg == regEntry.RegDate && r.Attended == attendance).ToList();
+                    if (regQuer.Count > 0 && cadetQuer.Count > 0)
+                    {
+                        int cadID = cadetQuer[0].CadetId;
+                        int regID = regQuer[0].RegisterId;
+                        _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
+                        counttest++;
+                        returnedString = counttest + " Entry Created";
+                    }
+                    if (cadetQuer.Count == 0)
+                    {
+                        returnedString = "Cadet doesn't exist";
+                    }
+                }
+                return Page();
+            }
             /*if (cadetRegisters.Count > 0)
             {
                 string firstName = cadetRegisters[0].Cadet.KnownAs;

@@ -22,9 +22,9 @@ namespace FinalCourseworkTemplate
         [BindProperty]
         public string nameFilter { get; set; }
         [BindProperty]
-        public int ageFilter { get; set; }
+        public int ageFilter { get; set; } = -1;
         [BindProperty]
-        public int yearFilter { get; set; }
+        public int yearFilter { get; set; } = -1;
         [BindProperty]
         public string formFilter { get; set; }
         [BindProperty]
@@ -32,9 +32,9 @@ namespace FinalCourseworkTemplate
         [BindProperty]
         public string rankFilter { get; set; }
         [BindProperty]
-        public int platoonFilter { get; set; }
+        public int platoonFilter { get; set; } = -1;
         [BindProperty]
-        public int sectionFilter { get; set; }
+        public int sectionFilter { get; set; } = -1;
 
         public void OnGet()
         {
@@ -43,6 +43,47 @@ namespace FinalCourseworkTemplate
 
         public async Task<IActionResult> OnPostAsync()
         {
+            Cadets = _context.Cadets.ToList();
+            if (!string.IsNullOrWhiteSpace(nameFilter))
+            {
+                Cadets = Cadets.Where(s =>
+                0 == string.Compare(s.KnownAs + " " + s.Surname, nameFilter,
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+            }
+            if (ageFilter != -1)
+            {
+                Cadets = Cadets.Where(s => s.Age == ageFilter).OrderBy(s => s.Surname).ToList();
+            }
+            if (yearFilter != -1)
+            {
+                Cadets = Cadets.Where(s => s.Year == yearFilter).OrderBy(s => s.Surname).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(formFilter))
+            {
+                Cadets = Cadets.Where(s =>
+                0 == string.Compare(s.Form, formFilter,
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(genderFilter))
+            {
+                Cadets = Cadets.Where(s =>
+                0 == string.Compare(s.Gender, genderFilter,
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(rankFilter))
+            {
+                Cadets = Cadets.Where(s =>
+                0 == string.Compare(s.Rank, rankFilter,
+                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+            }
+            if (platoonFilter != -1)
+            {
+                Cadets = Cadets.Where(s => s.Platoon == platoonFilter).OrderBy(s => s.Surname).ToList();
+            }
+            if (yearFilter != -1)
+            {
+                Cadets = Cadets.Where(s => s.Section == sectionFilter).OrderBy(s => s.Surname).ToList();
+            }
             return Page();
         }
     }
