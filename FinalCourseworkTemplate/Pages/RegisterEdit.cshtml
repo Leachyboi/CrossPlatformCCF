@@ -16,7 +16,8 @@
         <option value="years">Year</option>
         <option value="platoons">Platoon</option>
     </select>
-    <input type="number" asp-for="regGroupVal" size="5" min="1" max="13" />
+    <input type="number" asp-for="regGroupVal" size="5" min="0" max="13" />
+    <button type="submit" asp-page-handler="Filter">Filter</button>
     <table class="table">
         <thead>
             <tr>
@@ -36,21 +37,26 @@
             {
                 <tr>
                     <td>
-                        <input type="text" asp-for="@Model.RegisterViews[i].FullName" readonly="readonly" />
-                        @Model.RegisterViews[i].FullName
+                        <input type="text"
+                               asp-for="@Model.RegisterViews[i].FullName"
+                               value="@Model.RegisterViews[i].FullName"
+                               readonly="readonly" />
                     </td>
                     <td>
                         @*@cadet.Attendance*@
                         Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance">
                     </td>
                     <td>
-                        <input type="text" asp-for="@Model.RegisterViews[i].RegDate" readonly="readonly" />
+                        <input type="text"
+                               asp-for="@Model.RegisterViews[i].RegDate"
+                               value="@Model.RegisterViews[i].RegDate"
+                               readonly="readonly" />
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <button type="submit">Submit</button>
+    <button type="submit" asp-page-handler="Submit">Submit</button>
 </form>
 
 @{
