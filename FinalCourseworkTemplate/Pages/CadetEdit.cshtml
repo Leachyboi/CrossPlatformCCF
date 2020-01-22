@@ -5,5 +5,105 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>CadetEdit</h1>
+<h1>Cadet Editor</h1>
 
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Known As
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Year
+                </th>
+                <th>
+                    Form
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Rank
+                </th>
+                <th>
+                    Platoon
+                </th>
+                <th>
+                    Section
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="text" asp-for="forNameFilter" size="17" />
+                </td>
+                <td>
+                    <input type="text" asp-for="surNameFilter" size="17" />
+                </td>
+                <td>
+                    <input type="number" asp-for="ageFilter" size="17" min="-1" />
+                </td>
+                <td>
+                    <input type="number" asp-for="yearFilter" size="17" min="-1" />
+                </td>
+                <td>
+                    <input type="text" asp-for="formFilter" size="17" />
+                </td>
+                <td>
+                    <input type="text" asp-for="genderFilter" size="17" />
+                </td>
+                <td>
+                    <input type="text" asp-for="rankFilter" size="17" />
+                </td>
+                <td>
+                    <input type="number" asp-for="platoonFilter" size="17" min="-1" max="3" />
+                </td>
+                <td>
+                    <input type="number" asp-for="sectionFilter" size="17" min="-1" max="3" />
+                </td>
+            </tr>
+            @for (var i = 0; i < Model.Cadets.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="text" asp-for="@Model.Cadets[i].KnownAs" size="17" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.Cadets[i].Surname" size="17" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.Cadets[i].Age" style="width: 6em" min="13" max="100" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.Cadets[i].Year" style="width: 6em" min="9" max="14" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.Cadets[i].Form" size="13" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.Cadets[i].Gender" size="15" />
+                    </td>
+                    <td>
+                        <input type="text" asp-for="@Model.Cadets[i].Rank" size="11" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.Cadets[i].Platoon" style="width: 9em" min="1" max="3" />
+                    </td>
+                    <td>
+                        <input type="number" asp-for="@Model.Cadets[i].Section" style="width: 9em" min="1" max="3" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" asp-page-handler="Filter">Filter</button>
+    <button type="submit" asp-page-handler="Submit">Submit</button>
+</form>
