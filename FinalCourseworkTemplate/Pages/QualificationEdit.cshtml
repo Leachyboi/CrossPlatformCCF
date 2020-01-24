@@ -1,12 +1,10 @@
 ﻿@page
-@model FinalCourseworkTemplate.QualificationModel
+@model FinalCourseworkTemplate.QualificationEditModel
 @{
-    ViewData["Title"] = "Qualification";
+    ViewData["Title"] = "QualificationEdit";
 }
 
-<h1>Qualification</h1>
-
-<a asp-area="" asp-page="/QualificationCreator">Qualification Creator</a>
+<h1>QualificationEdit</h1>
 
 <form method="post">
     <table class="table">
@@ -57,22 +55,28 @@
             {
                 <tr>
                     <td>
-                        @Model.Qualifications[i].Name
+                        <input type="text" asp-for="@Model.Qualifications[i].Name"
+                               value="@Model.Qualifications[i].Name" size="17" />
                     </td>
                     <td>
-                        @Model.Qualifications[i].PassMark
+                        <input type="number" asp-for="@Model.Qualifications[i].PassMark"
+                               value="@Model.Qualifications[i].PassMark" size="17" min="0" />
                     </td>
                     <td>
-                        @Model.Qualifications[i].ParOrChi
+                        <input type="text" asp-for="@Model.Qualifications[i].ParOrChi"
+                               value="@Model.Qualifications[i].ParOrChi" size="17" />
                     </td>
                     <td>
-                        @Model.Qualifications[i].Parent
+                        <input type="text" asp-for="@Model.Qualifications[i].Parent"
+                               value="@Model.Qualifications[i].Parent" size="17" />
                     </td>
                     <td>
-                        @Model.Qualifications[i].NumOfChi
+                        <input type="number" asp-for="@Model.Qualifications[i].NumOfChi"
+                               value="@Model.Qualifications[i].NumOfChi" size="17" min="0" />
                     </td>
                     <td>
-                        @Model.Qualifications[i].MinChiPass
+                        <input type="number" asp-for="@Model.Qualifications[i].MinChiPass"
+                               value="@Model.Qualifications[i].MinChiPass" size="17" min="0" />
                     </td>
                     <td>
                         <input type="number" asp-for="@Model.Qualifications[i].QualificationId"
@@ -82,5 +86,6 @@
             }
         </tbody>
     </table>
-    <button type="submit">Submit</button>
+    <button type="submit" asp-page-handler="Filter">Filter</button>
+    <button type="submit" asp-page-handler="Submit">Submit</button>
 </form>
