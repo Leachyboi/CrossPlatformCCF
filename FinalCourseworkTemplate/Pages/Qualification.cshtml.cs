@@ -70,6 +70,16 @@ namespace FinalCourseworkTemplate
             {
                 Qualifications = Qualifications.Where(s => s.MinChiPass == minChiFilter).OrderBy(s => s.Name).ToList();
             }
+            //remove entries
+            //if(nameFilter == "delete")
+            //{
+            //    var removeItem = _context.Qualifications.SingleOrDefault(s => s.QualificationId == 7);
+            //    if(removeItem != null)
+            //    {
+            //        _context.Qualifications.Remove(removeItem);
+            //        _context.SaveChanges();
+            //    }
+            //}
             return Page();// RedirectToPage("./Qualification");
         }
     }
