@@ -12,7 +12,6 @@ namespace FinalCourseworkTemplate
     {
         private readonly FinalCourseworkTemplateContext _context;
 
-        [BindProperty]
         public IList<Qualification> Qualifications { get; set; }
 
         [BindProperty]
@@ -82,6 +81,7 @@ namespace FinalCourseworkTemplate
                 _context.Qualifications.Remove(removeItem);
                 _context.SaveChanges();
             }
+            Qualifications = _context.Qualifications.OrderBy(s => s.Name).ToList();
             return Page();
         }
     }

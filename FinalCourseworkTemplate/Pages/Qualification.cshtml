@@ -81,7 +81,8 @@
                                value="@Model.Qualifications[i].QualificationId" hidden="hidden" />
                     </td>
                     <td>
-                        <button type="submit" asp-page-handler="Delete" asp-route-DeleId="@Model.Qualifications[i].QualificationId">Delete</button>
+                        <button type="submit" asp-page-handler="Delete" 
+                                asp-route-DeleId="@Model.Qualifications[i].QualificationId">Delete</button>
                     </td>
                 </tr>
             }

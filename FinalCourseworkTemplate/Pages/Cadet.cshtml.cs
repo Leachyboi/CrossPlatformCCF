@@ -41,7 +41,7 @@ namespace FinalCourseworkTemplate
             Cadets = _context.Cadets.OrderBy(s => s.Platoon).ThenBy(s => s.Section).ThenBy(s => s.Surname).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostSubmitAsync()
         {
             Cadets = _context.Cadets.ToList();
             if (!string.IsNullOrWhiteSpace(nameFilter))
@@ -84,6 +84,18 @@ namespace FinalCourseworkTemplate
             {
                 Cadets = Cadets.Where(s => s.Section == sectionFilter).OrderBy(s => s.Surname).ToList();
             }
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int DeleId)
+        {
+            var removeItem = _context.Cadets.SingleOrDefault(s => s.CadetId == DeleId);
+            if (removeItem != null)
+            {
+                _context.Cadets.Remove(removeItem);
+                _context.SaveChanges();
+            }
+            Cadets = _context.Cadets.OrderBy(s => s.Surname).ToList();
             return Page();
         }
     }
