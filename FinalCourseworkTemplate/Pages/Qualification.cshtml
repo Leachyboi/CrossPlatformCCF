@@ -8,6 +8,8 @@
 
 <a asp-area="" asp-page="/QualificationCreator">Qualification Creator</a>
 
+<a asp-area="" asp-page="/QualificationEdit">Qualification Editor</a>
+
 <form method="post">
     <table class="table">
         <thead>
@@ -78,9 +80,12 @@
                         <input type="number" asp-for="@Model.Qualifications[i].QualificationId"
                                value="@Model.Qualifications[i].QualificationId" hidden="hidden" />
                     </td>
+                    <td>
+                        <button type="submit" asp-page-handler="Delete" asp-route-DeleId="@Model.Qualifications[i].QualificationId">Delete</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-    <button type="submit">Submit</button>
+    <button type="submit" asp-page-handler="Submit">Submit</button>
 </form>

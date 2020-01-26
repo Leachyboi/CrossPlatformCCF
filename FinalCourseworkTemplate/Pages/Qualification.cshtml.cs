@@ -12,6 +12,7 @@ namespace FinalCourseworkTemplate
     {
         private readonly FinalCourseworkTemplateContext _context;
 
+        [BindProperty]
         public IList<Qualification> Qualifications { get; set; }
 
         [BindProperty]
@@ -37,7 +38,7 @@ namespace FinalCourseworkTemplate
             Qualifications = _context.Qualifications.OrderBy(s => s.Name).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostSubmitAsync()
         {
             Qualifications = _context.Qualifications.ToList();
             if (!string.IsNullOrWhiteSpace(nameFilter))
@@ -70,17 +71,18 @@ namespace FinalCourseworkTemplate
             {
                 Qualifications = Qualifications.Where(s => s.MinChiPass == minChiFilter).OrderBy(s => s.Name).ToList();
             }
-            //remove entries
-            //if(nameFilter == "delete")
-            //{
-            //    var removeItem = _context.Qualifications.SingleOrDefault(s => s.QualificationId == 7);
-            //    if(removeItem != null)
-            //    {
-            //        _context.Qualifications.Remove(removeItem);
-            //        _context.SaveChanges();
-            //    }
-            //}
             return Page();// RedirectToPage("./Qualification");
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int DeleId)
+        {
+            var removeItem = _context.Qualifications.SingleOrDefault(s => s.QualificationId == DeleId);
+            if (removeItem != null)
+            {
+                _context.Qualifications.Remove(removeItem);
+                _context.SaveChanges();
+            }
+            return Page();
         }
     }
 }
