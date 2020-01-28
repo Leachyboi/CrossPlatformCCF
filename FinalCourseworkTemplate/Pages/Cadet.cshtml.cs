@@ -46,9 +46,8 @@ namespace FinalCourseworkTemplate
             Cadets = _context.Cadets.ToList();
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
-                Cadets = Cadets.Where(s =>
-                0 == string.Compare(s.KnownAs + " " + s.Surname, nameFilter,
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+                Cadets = Cadets.Where(s => s.Surname.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Surname).ToList();
             }
             if (ageFilter != -1)
             {
@@ -60,21 +59,18 @@ namespace FinalCourseworkTemplate
             }
             if (!string.IsNullOrWhiteSpace(formFilter))
             {
-                Cadets = Cadets.Where(s =>
-                0 == string.Compare(s.Form, formFilter,
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+                Cadets = Cadets.Where(s => s.Form.Contains(formFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Surname).ToList();
             }
             if (!string.IsNullOrWhiteSpace(genderFilter))
             {
-                Cadets = Cadets.Where(s =>
-                0 == string.Compare(s.Gender, genderFilter,
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+                Cadets = Cadets.Where(s => s.Gender.Contains(genderFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Surname).ToList();
             }
             if (!string.IsNullOrWhiteSpace(rankFilter))
             {
-                Cadets = Cadets.Where(s =>
-                0 == string.Compare(s.Rank, rankFilter,
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+                Cadets = Cadets.Where(s => s.Rank.Contains(rankFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Surname).ToList();
             }
             if (platoonFilter != -1)
             {

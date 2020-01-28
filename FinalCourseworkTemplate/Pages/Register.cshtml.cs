@@ -22,9 +22,9 @@ namespace FinalCourseworkTemplate.Pages
         [BindProperty]
         public string attendFilter { get; set; }
         [BindProperty]
-        public DateTime dateFilter { get; set; }
+        public DateTime dateFilter { get; set; } = DateTime.Today.Date;
 
-        public DateTime compDate = new DateTime(0001, 01, 01, 0, 0, 0);
+        public DateTime compDate = DateTime.Today.Date;
         public bool attFiltered;
         public bool dayFiltered;
         public bool filterVal;
@@ -75,12 +75,13 @@ namespace FinalCourseworkTemplate.Pages
 
             attFiltered = false;
             dayFiltered = false;
+            compDate = daySelector(DateTime.Today.Date);
 
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
                 Cadets = Cadets.Where(
-                    s => 0 == string.Compare((s.KnownAs + " " + s.Surname), nameFilter, 
-                    StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Surname).ToList();
+                    s => s.Surname.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase))
+                    .OrderBy(s => s.Surname).ToList();
             }
 
             if (!string.IsNullOrWhiteSpace(attendFilter))
@@ -179,6 +180,21 @@ namespace FinalCourseworkTemplate.Pages
                 }
             }
             return Page();
+        }
+        public DateTime daySelector(DateTime currentDay)
+        {
+            if (currentDay.DayOfWeek == DayOfWeek.Monday)
+            {
+            }
+            else
+            {
+                currentDay = currentDay.AddDays(-1);
+                while (currentDay.DayOfWeek != DayOfWeek.Monday)
+                {
+                    currentDay = currentDay.AddDays(-1);
+                }
+            }
+            return currentDay;
         }
     }
 }

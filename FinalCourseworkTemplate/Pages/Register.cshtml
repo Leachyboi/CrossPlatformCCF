@@ -28,7 +28,11 @@
                     <input type="text" asp-for="nameFilter" size="17" />
                 </td>
                 <td>
-                    <input type="text" asp-for="attendFilter" size="17" min="-1" />
+                    <select asp-for="attendFilter" size="1">
+                        <option value="none">All</option>
+                        <option value="Yes">Present</option>
+                        <option value="No">Not Present</option>
+                    </select>
                 </td>
                 <td>
                     <input type="date" asp-for="dateFilter" size="17" />

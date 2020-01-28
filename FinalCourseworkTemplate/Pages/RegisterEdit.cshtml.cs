@@ -101,7 +101,7 @@ namespace FinalCourseworkTemplate.Pages
                                     new RegisterView
                                     {
                                         FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                        Attendance = false.ToString(),// ? "Yes" : "No",
+                                        Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
                                         RegDate = register.Register.DateOfReg.Date,
                                     }
                                 );
@@ -217,6 +217,7 @@ namespace FinalCourseworkTemplate.Pages
                     _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
                     counttest++;
                     returnedString = counttest + " Entry Created";
+                    await _context.SaveChangesAsync();
                 }
                 if (cadetQuer.Count == 0)
                 {

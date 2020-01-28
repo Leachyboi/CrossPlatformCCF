@@ -42,9 +42,8 @@ namespace FinalCourseworkTemplate
             Qualifications = _context.Qualifications.ToList();
             if (!string.IsNullOrWhiteSpace(nameFilter))
             {
-                Qualifications = Qualifications.Where(s => 
-                0 == string.Compare(s.Name, nameFilter, 
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
+                Qualifications = Qualifications.Where(s => s.Name.Contains(nameFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Name).ToList();
             }
             if (passMarkFilter != -1)
             {
@@ -52,15 +51,13 @@ namespace FinalCourseworkTemplate
             }
             if (!string.IsNullOrWhiteSpace(parChiFilter))
             {
-                Qualifications = Qualifications.Where(s =>
-                0 == string.Compare(s.ParOrChi, parChiFilter, 
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
+                Qualifications = Qualifications.Where(s => s.ParOrChi.Contains(parChiFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Name).ToList();
             }
             if (!string.IsNullOrWhiteSpace(parentFilter))
             {
-                Qualifications = Qualifications.Where(s =>
-                0 == string.Compare(s.Parent, parentFilter, 
-                StringComparison.CurrentCultureIgnoreCase)).OrderBy(s => s.Name).ToList();
+                Qualifications = Qualifications.Where(s => s.Parent.Contains(parentFilter, StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(s => s.Name).ToList();
             }
             if (numChiFilter != -1)
             {

@@ -95,11 +95,13 @@
                     </td>
                     <td>
                         <button type="submit" asp-page-handler="Delete"
-                                asp-route-DeleId="@Model.Cadets[i].CadetId">Delete</button>
+                                asp-route-DeleId="@Model.Cadets[i].CadetId"
+                                onclick="return confirm('@string.Format("Are you sure you want to delete {0} {1}?", 
+                                @Model.Cadets[i].KnownAs, @Model.Cadets[i].Surname)');" >Delete</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <button type="submit" asp-page-handler="Submit">Submit</button>
+    <button type="submit" asp-page-handler="Submit" >Filter</button>
 </form>

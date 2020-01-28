@@ -81,8 +81,12 @@
                                value="@Model.Qualifications[i].QualificationId" hidden="hidden" />
                     </td>
                     <td>
-                        <button type="submit" asp-page-handler="Delete" 
-                                asp-route-DeleId="@Model.Qualifications[i].QualificationId">Delete</button>
+                        <td>
+                        <button type="submit" asp-page-handler="Delete"
+                                asp-route-DeleId="@Model.Qualifications[i].QualificationId"
+                                onclick="return confirm('@string.Format("Are you sure you want to delete {0}?", 
+                                @Model.Qualifications[i].Name)');" >Delete</button>
+                    </td>
                     </td>
                 </tr>
             }
