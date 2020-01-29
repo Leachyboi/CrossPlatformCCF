@@ -33,26 +33,29 @@
             </tr>
         </thead>
         <tbody>
-            @for (var i = 0; i < Model.RegisterViews.Count; i++)
+            @if (Model.RegisterViews != null)
             {
-                <tr>
-                    <td>
-                        <input type="text"
-                               asp-for="@Model.RegisterViews[i].FullName"
-                               value="@Model.RegisterViews[i].FullName"
-                               readonly="readonly" />
-                    </td>
-                    <td>
-                        @*@cadet.Attendance*@
-                        Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance">
-                    </td>
-                    <td>
-                        <input type="text"
-                               asp-for="@Model.RegisterViews[i].RegDate"
-                               value="@Model.RegisterViews[i].RegDate"
-                               readonly="readonly" />
-                    </td>
-                </tr>
+                @for (var i = 0; i < Model.RegisterViews.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="text"
+                                   asp-for="@Model.RegisterViews[i].FullName"
+                                   value="@Model.RegisterViews[i].FullName"
+                                   readonly="readonly" />
+                        </td>
+                        <td>
+                            @*@cadet.Attendance*@
+                            Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance">
+                        </td>
+                        <td>
+                            <input type="text"
+                                   asp-for="@Model.RegisterViews[i].RegDate"
+                                   value="@Model.RegisterViews[i].RegDate"
+                                   readonly="readonly" />
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

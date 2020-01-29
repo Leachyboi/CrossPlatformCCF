@@ -45,7 +45,7 @@ namespace FinalCourseworkTemplate.Pages
 
         public void OnGet()
         {
-            RegisterViews = new List<RegisterView>();
+            //RegisterViews = new List<RegisterView>();
             Cadets = _context.Cadets.Include(c => c.Registers).OrderBy(s => s.Surname).ToList();
 
             day = daySelector(DateTime.Today);
@@ -59,58 +59,58 @@ namespace FinalCourseworkTemplate.Pages
                 _context.SaveChanges();
             }
 
-            Registers = _context.Registers.Where(c => c.DateOfReg == day).ToList();
+            //Registers = _context.Registers.Where(c => c.DateOfReg == day).ToList();
 
-            foreach (var cadet in Cadets)
-            {
-                if (0 == cadet.Registers.Count)
-                {
-                    RegisterViews.Add(
-                        new RegisterView
-                        {
-                            FullName = cadet.Surname + ", " + cadet.KnownAs,
-                            Attendance = false.ToString(),
-                            RegDate = day.Date,
-                        }
-                    );
-                }
-                else
-                {
-                    var firstRegistration = true;
-                    foreach (var register in cadet.Registers)
-                    {
-                        if (register.Register == null)
-                        {
-                            if (firstRegistration == true)
-                            {
-                                RegisterViews.Add(
-                                    new RegisterView
-                                    {
-                                        FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                        Attendance = false.ToString(),
-                                        RegDate = day.Date,
-                                    }
-                                );
-                            }
-                        }
-                        else
-                        {
-                            if (firstRegistration == true)
-                            {
-                                RegisterViews.Add(
-                                    new RegisterView
-                                    {
-                                        FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
-                                        Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
-                                        RegDate = register.Register.DateOfReg.Date,
-                                    }
-                                );
-                            }
-                        }
-                        firstRegistration = false;
-                    }
-                }
-            }
+            //foreach (var cadet in Cadets)
+            //{
+            //    if (0 == cadet.Registers.Count)
+            //    {
+            //        RegisterViews.Add(
+            //            new RegisterView
+            //            {
+            //                FullName = cadet.Surname + ", " + cadet.KnownAs,
+            //                Attendance = false.ToString(),
+            //                RegDate = day.Date,
+            //            }
+            //        );
+            //    }
+            //    else
+            //    {
+            //        var firstRegistration = true;
+            //        foreach (var register in cadet.Registers)
+            //        {
+            //            if (register.Register == null)
+            //            {
+            //                if (firstRegistration == true)
+            //                {
+            //                    RegisterViews.Add(
+            //                        new RegisterView
+            //                        {
+            //                            FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
+            //                            Attendance = false.ToString(),
+            //                            RegDate = day.Date,
+            //                        }
+            //                    );
+            //                }
+            //            }
+            //            if (register.Register != null)
+            //            {
+            //                if (firstRegistration == true)
+            //                {
+            //                    RegisterViews.Add(
+            //                        new RegisterView
+            //                        {
+            //                            FullName = firstRegistration ? cadet.Surname + ", " + cadet.KnownAs : "",
+            //                            Attendance = register.Register.Attended.ToString(),// ? "Yes" : "No",
+            //                            RegDate = register.Register.DateOfReg.Date,
+            //                        }
+            //                    );
+            //                }
+            //            }
+            //            firstRegistration = false;
+            //        }
+            //    }
+            //}
         }
 
         public DateTime daySelector (DateTime currentDay)
@@ -212,9 +212,24 @@ namespace FinalCourseworkTemplate.Pages
                     .Where(r => r.DateOfReg == regEntry.RegDate && r.Attended == attendance).ToList();
                 if (regQuer.Count > 0 && cadetQuer.Count > 0)
                 {
-                    int cadID = cadetQuer[0].CadetId;
-                    int regID = regQuer[0].RegisterId;
-                    _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
+                    var cadReg = _context.CadetRegisters
+                        .Where(c => c.CadetId == cadetQuer[0].CadetId && c.Register.DateOfReg == regQuer[0].DateOfReg)
+                        .ToList();
+                    if(cadReg.Count > 0)
+                    {
+                        for(var i = 0; i < cadReg.Count; i++)
+                        {
+                            cadReg[i].CadetId = cadetQuer[0].CadetId;
+                            cadReg[i].RegisterId = regQuer[0].RegisterId;
+                            _context.Update(cadReg[i]);
+                        }
+                    }
+                    if(cadReg.Count == 0)
+                    {
+                        int cadID = cadetQuer[0].CadetId;
+                        int regID = regQuer[0].RegisterId;
+                        _context.CadetRegisters.Add(new CadetRegister { CadetId = cadID, RegisterId = regID });
+                    }
                     counttest++;
                     returnedString = counttest + " Entry Created";
                     await _context.SaveChangesAsync();
