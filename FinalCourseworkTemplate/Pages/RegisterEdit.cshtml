@@ -46,7 +46,8 @@
                         </td>
                         <td>
                             @*@cadet.Attendance*@
-                            Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance">
+                            Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance" 
+                                             value="@Model.RegisterViews[i].Attendance">
                         </td>
                         <td>
                             <input type="text"

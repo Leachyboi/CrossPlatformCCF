@@ -161,14 +161,14 @@ namespace FinalCourseworkTemplate.Pages
 
             day = daySelector(DateTime.Today);
 
-            foreach (var cadet in Cadets)
+            for (var i = 0; i < Cadets.Count; i++)//each (var cadet in Cadets)
             {
-                if (0 == cadet.Registers.Count)
+                if (0 == Cadets[i].Registers.Count)
                 {
                     RegisterViews.Add(
                         new RegisterView
                         {
-                            FullName = cadet.Surname + ", " + cadet.KnownAs,
+                            FullName = Cadets[i].Surname + ", " + Cadets[i].KnownAs,
                             Attendance = false.ToString(),
                             RegDate = day.Date,
                         }
@@ -176,16 +176,19 @@ namespace FinalCourseworkTemplate.Pages
                 }
                 else
                 {
+                    int x = 0;
+                    while(Cadets[i].Registers[x].Register.DateOfReg != day)
                     {
-                        RegisterViews.Add(
+                        x++;
+                    }
+                    RegisterViews.Add(
                             new RegisterView
                             {
-                                FullName = cadet.Surname + ", " + cadet.KnownAs,
-                                Attendance = false.ToString(),// ? "Yes" : "No",
+                                FullName = Cadets[i].Surname + ", " + Cadets[i].KnownAs,
+                                Attendance = Cadets[i].Registers[x].Register.Attended.ToString(),// ? "Yes" : "No",
                                 RegDate = day.Date,
                             }
                         );
-                    }
                 }
             }
             return Page();           
