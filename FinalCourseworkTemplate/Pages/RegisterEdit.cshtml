@@ -18,6 +18,11 @@
     </select>
     <input type="number" asp-for="regGroupVal" size="5" min="0" max="13" />
     <button type="submit" asp-page-handler="Filter">Filter</button>
+
+    <input type="date" asp-for="dateSel" style="float: right" /> <br>
+    <input type="radio" asp-for="custDate" value="Yes" style="float: right" > <h6 style="float: right; margin-right: 10px">Custom</h6><br>
+    <input type="radio" asp-for="custDate" value="No" style="float: right" checked > <h6 style="float: right; margin-right: 10px" >Not Custom</h6>
+    
     <table class="table">
         <thead>
             <tr>
@@ -46,7 +51,7 @@
                         </td>
                         <td>
                             @*@cadet.Attendance*@
-                            Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance" 
+                            Attended? <input type="checkbox" asp-for="@Model.RegisterViews[i].Attendance"
                                              value="@Model.RegisterViews[i].Attendance">
                         </td>
                         <td>

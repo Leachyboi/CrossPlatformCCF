@@ -28,6 +28,10 @@ namespace FinalCourseworkTemplate.Pages
         public string regGroup { get; set; }
         [BindProperty]
         public int regGroupVal { get; set; }
+        [BindProperty]
+        public string custDate { get; set; }
+        [BindProperty]
+        public DateTime dateSel { get; set; } = DateTime.Today;
 
         [BindProperty]
         public string name { get; set; }
@@ -42,7 +46,6 @@ namespace FinalCourseworkTemplate.Pages
         DateTime day;
         int counttest;
 
-
         public void OnGet()
         {
             //RegisterViews = new List<RegisterView>();
@@ -50,14 +53,7 @@ namespace FinalCourseworkTemplate.Pages
 
             day = daySelector(DateTime.Today);
 
-            Registers = _context.Registers.Where(c => c.DateOfReg == day).ToList();
-            
-            if(Registers.Count == 0)
-            {
-                _context.Registers.Add(new Register { Attended = true, DateOfReg = day });
-                _context.Registers.Add(new Register { Attended = false, DateOfReg = day });
-                _context.SaveChanges();
-            }
+            RegCreat(day);
 
             //Registers = _context.Registers.Where(c => c.DateOfReg == day).ToList();
 
@@ -113,6 +109,18 @@ namespace FinalCourseworkTemplate.Pages
             //}
         }
 
+        public void RegCreat(DateTime selectDay)
+        {
+            Registers = _context.Registers.Where(c => c.DateOfReg == selectDay).ToList();
+
+            if (Registers.Count == 0)
+            {
+                _context.Registers.Add(new Register { Attended = true, DateOfReg = selectDay });
+                _context.Registers.Add(new Register { Attended = false, DateOfReg = selectDay });
+                _context.SaveChanges();
+            }
+        }
+
         public DateTime daySelector (DateTime currentDay)
         {
             if (currentDay.DayOfWeek == DayOfWeek.Tuesday)
@@ -159,7 +167,16 @@ namespace FinalCourseworkTemplate.Pages
             {
             }
 
-            day = daySelector(DateTime.Today);
+            if (custDate == "Yes")
+            {
+                RegCreat(dateSel);
+                day = dateSel;
+            }
+            else
+            {
+                day = daySelector(DateTime.Today);
+            }
+
 
             for (var i = 0; i < Cadets.Count; i++)//each (var cadet in Cadets)
             {
@@ -176,19 +193,20 @@ namespace FinalCourseworkTemplate.Pages
                 }
                 else
                 {
-                    int x = 0;
-                    while(Cadets[i].Registers[x].Register.DateOfReg != day)
+                    for(int x = 0; x < Cadets[i].Registers.Count; x++)
                     {
-                        x++;
+                        if(Cadets[i].Registers[x].Register.DateOfReg == day)
+                        {
+                            RegisterViews.Add(
+                                new RegisterView
+                                {
+                                    FullName = Cadets[i].Surname + ", " + Cadets[i].KnownAs,
+                                    Attendance = Cadets[i].Registers[x].Register.Attended.ToString(),// ? "Yes" : "No",
+                                    RegDate = day.Date,
+                                }
+                                );
+                        }
                     }
-                    RegisterViews.Add(
-                            new RegisterView
-                            {
-                                FullName = Cadets[i].Surname + ", " + Cadets[i].KnownAs,
-                                Attendance = Cadets[i].Registers[x].Register.Attended.ToString(),// ? "Yes" : "No",
-                                RegDate = day.Date,
-                            }
-                        );
                 }
             }
             return Page();           
