@@ -1,0 +1,63 @@
+﻿@page
+@model FinalCourseworkTemplate.QualAssignModel
+@{
+    ViewData["Title"] = "QualAssign";
+}
+
+<h1>QualAssign</h1>
+
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Cadet Name
+                </th>
+                <th>
+                    Qualification Name
+                </th>
+                <th>
+                    Cadet's Mark
+                </th>
+                <th>
+                    Pass Or Fail
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.QualAssignViews != null)
+            {
+                @for (var i = 0; i < Model.QualAssignViews.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="text"
+                                   asp-for="@Model.QualAssignViews[i].cadetName"
+                                   value="@Model.QualAssignViews[i].cadetName"
+                                   readonly="readonly" />
+                        </td>
+                        <td>
+                            <select asp-for="qualComp" size="1">
+                                    @foreach(var qual in Model.Qualifications)
+                                    {
+                                        <option value="@qual.Name">@qual.Name</option>
+                                    }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number"
+                                   asp-for="@Model.QualAssignViews[i].cadMark"
+                                   value="@Model.QualAssignViews[i].cadMark" />
+                        </td>
+                        <td>
+                            <input type="text"
+                                   asp-for="@Model.QualAssignViews[i].passFail"
+                                   value="@Model.QualAssignViews[i].passFail" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <button type="submit" asp-page-handler="Submit">Submit</button>
+</form>

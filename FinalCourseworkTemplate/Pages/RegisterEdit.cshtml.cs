@@ -45,6 +45,7 @@ namespace FinalCourseworkTemplate.Pages
 
         DateTime day;
         int counttest;
+        bool regDone = false;
 
         public void OnGet()
         {
@@ -205,7 +206,19 @@ namespace FinalCourseworkTemplate.Pages
                                     RegDate = day.Date,
                                 }
                                 );
+                            regDone = true;
                         }
+                    }
+                    if(regDone == false)
+                    {
+                        RegisterViews.Add(
+                                new RegisterView
+                                {
+                                    FullName = Cadets[i].Surname + ", " + Cadets[i].KnownAs,
+                                    Attendance = false.ToString(),// ? "Yes" : "No",
+                                    RegDate = day.Date,
+                                }
+                                );
                     }
                 }
             }
