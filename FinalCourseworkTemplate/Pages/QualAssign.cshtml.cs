@@ -22,6 +22,9 @@ namespace FinalCourseworkTemplate
         [BindProperty]
         public string qualComp { get; set; }
 
+        public bool resultPass = false;
+
+
         public QualAssignModel(FinalCourseworkTemplateContext context)
         {
             _context = context;
@@ -53,7 +56,53 @@ namespace FinalCourseworkTemplate
 
             foreach(var qualEntry in QualAssignViews)
             {
-                string inpName
+                string inpName = qualEntry.cadetName;
+                
+                string[] splitName = inpName.Split(',');
+                string realName = $"{splitName[1]} {splitName[0]}".Trim();
+
+                var cadetQuer = _context.Cadets
+                    .Where(s => s.Surname == splitName[0].Trim() 
+                    && s.KnownAs == splitName[1].Trim())
+                    .ToList();
+                var qualQuer = _context.Qualifications.Where(s => s.Name == qualEntry.qualName).ToList();
+                
+                if(cadetQuer.Count > 0 && qualQuer.Count > 0)
+                {
+                    var cadQual = _context.CadetQualifications
+                        .Where(c => c.CadetId == cadetQuer[0].CadetId && c.QualificationId == qualQuer[0].QualificationId)
+                        .ToList();
+
+                    //pass mark check
+                    if(qualEntry.cadMark >= qualQuer[0].PassMark)
+                    {
+                        resultPass = true;
+                    }
+
+                    if (cadQual.Count > 0)
+                    {
+                        for (var i = 0; i < cadQual.Count; i++)
+                        {
+                            cadQual[i].CadetId = cadetQuer[0].CadetId;
+                            cadQual[i].QualificationId = qualQuer[0].QualificationId;
+                            cadQual[i].cadMark = qualEntry.cadMark;
+                            cadQual[i].Passed = resultPass;
+                            _context.Update(cadQual[i]);
+                        }
+                    }
+                    if (cadQual.Count == 0)
+                    {
+                        _context.CadetQualifications.Add(
+                            new CadetQualification 
+                            { 
+                                CadetId = cadetQuer[0].CadetId, 
+                                QualificationId =  qualQuer[0].QualificationId,
+                                cadMark = qualEntry.cadMark,
+                                Passed = resultPass
+                            });
+                    }
+                    await _context.SaveChangesAsync();
+                }
             }
 
             return Page();
