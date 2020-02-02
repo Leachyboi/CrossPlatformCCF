@@ -21,6 +21,8 @@ namespace FinalCourseworkTemplate
 
         [BindProperty]
         public string qualComp { get; set; }
+        [BindProperty]
+        public string cadetName { get; set; }
 
         public bool resultPass = false;
 
@@ -54,18 +56,19 @@ namespace FinalCourseworkTemplate
             Cadets = _context.Cadets.Include(s => s.Qualifications).OrderBy(s => s.Surname).ToList();
             Qualifications = _context.Qualifications.OrderBy(s => s.Name).ToList();
 
+
             foreach(var qualEntry in QualAssignViews)
             {
-                string inpName = qualEntry.cadetName;
+                //string inpName = qualEntry.cadetName;
                 
-                string[] splitName = inpName.Split(',');
-                string realName = $"{splitName[1]} {splitName[0]}".Trim();
+                //string[] splitName = inpName.Split(',');
+                //string realName = $"{splitName[1]} {splitName[0]}".Trim();
 
                 var cadetQuer = _context.Cadets
-                    .Where(s => s.Surname == splitName[0].Trim() 
-                    && s.KnownAs == splitName[1].Trim())
+                    .Where(s => s.Surname == cadetName/*splitName[0].Trim() 
+                    && s.KnownAs == splitName[1].Trim()*/)
                     .ToList();
-                var qualQuer = _context.Qualifications.Where(s => s.Name == qualEntry.qualName).ToList();
+                var qualQuer = _context.Qualifications.Where(s => s.Name == qualComp).ToList();
                 
                 if(cadetQuer.Count > 0 && qualQuer.Count > 0)
                 {
@@ -73,12 +76,14 @@ namespace FinalCourseworkTemplate
                         .Where(c => c.CadetId == cadetQuer[0].CadetId && c.QualificationId == qualQuer[0].QualificationId)
                         .ToList();
 
-                    //pass mark check
+                    int num = qualEntry.cadMark;
+
                     if(qualEntry.cadMark >= qualQuer[0].PassMark)
                     {
                         resultPass = true;
                     }
 
+                    //find why mark not saved
                     if (cadQual.Count > 0)
                     {
                         for (var i = 0; i < cadQual.Count; i++)

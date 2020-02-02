@@ -31,13 +31,21 @@
                 {
                     <tr>
                         <td>
-                            <input type="text"
+                            <select asp-for="cadetName" size="1">
+                                <option value="none" selected>Select One</option>
+                                @foreach (var cadet in Model.Cadets)
+                                {
+                                    <option value="@cadet.Surname">@cadet.Surname, @cadet.KnownAs</option>
+                                }
+                            </select>
+                            @*<input type="text"
                                    asp-for="@Model.QualAssignViews[i].cadetName"
                                    value="@Model.QualAssignViews[i].cadetName"
-                                   readonly="readonly" />
+                                   readonly="readonly" />*@
                         </td>
                         <td>
                             <select asp-for="qualComp" size="1">
+                                <option value="none" selected>Select One</option>
                                     @foreach(var qual in Model.Qualifications)
                                     {
                                         <option value="@qual.Name">@qual.Name</option>
@@ -47,7 +55,7 @@
                         <td>
                             <input type="number"
                                    asp-for="@Model.QualAssignViews[i].cadMark"
-                                   value="@Model.QualAssignViews[i].cadMark" />
+                                   value="@Model.QualAssignViews[i].cadMark" min="0"/>
                         </td>
                         <td>
                             <input type="text"
