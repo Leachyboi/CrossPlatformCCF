@@ -38,13 +38,13 @@ namespace FinalCourseworkTemplate
             Cadets = _context.Cadets.Include(s => s.Qualifications).OrderBy(s => s.Surname).ToList();
             Qualifications = _context.Qualifications.OrderBy(s => s.Name).ToList();
 
-            foreach(var cadet in Cadets)
+            for (var i = 0; i < 10; i++)
             {
                 QualAssignViews.Add(new QualAssignView
                     {
-                        cadetName = cadet.Surname + ", " + cadet.KnownAs,
+                        cadetName = "",
                         qualName = "",
-                        cadMark = 0,
+                        cadetMark = 0,
                         passFail = "",
                     }
                 );
@@ -65,10 +65,10 @@ namespace FinalCourseworkTemplate
                 //string realName = $"{splitName[1]} {splitName[0]}".Trim();
 
                 var cadetQuer = _context.Cadets
-                    .Where(s => s.Surname == cadetName/*splitName[0].Trim() 
+                    .Where(s => s.Surname == qualEntry.cadetName/*splitName[0].Trim() 
                     && s.KnownAs == splitName[1].Trim()*/)
                     .ToList();
-                var qualQuer = _context.Qualifications.Where(s => s.Name == qualComp).ToList();
+                var qualQuer = _context.Qualifications.Where(s => s.Name == qualEntry.qualName).ToList();
                 
                 if(cadetQuer.Count > 0 && qualQuer.Count > 0)
                 {
@@ -76,21 +76,18 @@ namespace FinalCourseworkTemplate
                         .Where(c => c.CadetId == cadetQuer[0].CadetId && c.QualificationId == qualQuer[0].QualificationId)
                         .ToList();
 
-                    int num = qualEntry.cadMark;
-
-                    if(qualEntry.cadMark >= qualQuer[0].PassMark)
+                    if(qualEntry.cadetMark >= qualQuer[0].PassMark)
                     {
                         resultPass = true;
                     }
 
-                    //find why mark not saved
                     if (cadQual.Count > 0)
                     {
                         for (var i = 0; i < cadQual.Count; i++)
                         {
                             cadQual[i].CadetId = cadetQuer[0].CadetId;
                             cadQual[i].QualificationId = qualQuer[0].QualificationId;
-                            cadQual[i].cadMark = qualEntry.cadMark;
+                            cadQual[i].cadMark = qualEntry.cadetMark;
                             cadQual[i].Passed = resultPass;
                             _context.Update(cadQual[i]);
                         }
@@ -102,7 +99,7 @@ namespace FinalCourseworkTemplate
                             { 
                                 CadetId = cadetQuer[0].CadetId, 
                                 QualificationId =  qualQuer[0].QualificationId,
-                                cadMark = qualEntry.cadMark,
+                                cadMark = qualEntry.cadetMark,
                                 Passed = resultPass
                             });
                     }

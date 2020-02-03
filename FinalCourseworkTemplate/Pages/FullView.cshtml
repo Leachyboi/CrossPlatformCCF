@@ -33,6 +33,15 @@
                 <td>
                     @* displays qualification names and passmarks with line breaks *@
                     <table class="table-secondary bg-secondary">
+                        <th>
+                            Qualification Name
+                        </th>
+                        <th>
+                            Pass Mark
+                        </th>
+                        <th>
+                            Cadet's Mark
+                        </th>
                         @foreach (var qualification in cadet.Qualifications)
                         {
                             <tr>
@@ -41,6 +50,9 @@
                             <tr>
                                 @qualification.Qualification.PassMark
                             </tr>
+                            <tr>
+                                @qualification.cadMark
+                            </tr>   
                             <br />
                         }
                     </table>

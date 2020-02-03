@@ -9,7 +9,7 @@ namespace FinalCourseworkTemplate.ViewModel
     {
         public string cadetName { get; set; }
         public string qualName { get; set; }
-        public int cadMark { get; set; }
+        public int cadetMark { get; set; }
         public string passFail { get; set; }
     }
 }
