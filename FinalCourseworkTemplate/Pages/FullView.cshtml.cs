@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FinalCourseworkTemplate.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalCourseworkTemplate
 {
@@ -19,13 +20,17 @@ namespace FinalCourseworkTemplate
         }
 
         public IList<Qualification> Qualifications { get; set; }
+        public IList<Register> Registers { get; set; }
         public IList<CadetQualification> CadetQualifications { get; set; }
+        public IList<CadetRegister> CadetRegisters { get; set; }
 
         public async Task OnGetAsync()
         {
-            var cadetqualifications = _context.CadetQualifications.ToList();
-            var qualification = _context.Qualifications.ToList();
-            Cadets = _context.Cadets.Where(s => s.Qualifications.Count > 0).ToList();
+            Cadets = _context.Cadets.Include(s => s.Qualifications).Include(s => s.Registers).OrderBy(s => s.Surname).ToList();
+            Qualifications = _context.Qualifications.ToList();
+            Registers = _context.Registers.ToList();
+            CadetQualifications = _context.CadetQualifications.ToList();
+            CadetRegisters = _context.CadetRegisters.ToList();
         }
     }
 }

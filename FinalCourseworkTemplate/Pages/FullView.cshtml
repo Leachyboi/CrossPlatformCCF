@@ -4,60 +4,159 @@
     ViewData["Title"] = "Full View";
 }
 
-<h1>Qualification</h1>
-
+<h1>Full View</h1>
+@*1. Filter Values
+  2. Custom Columns
+  3. Button to show specific values such as not awarded but passed
+*@
 <table class="table">
     <thead>
         <tr>
             <th>
-                Surname
+                Cadet Name
             </th>
             <th>
-                Qualification Count
+                Cadet Age
             </th>
             <th>
-                Qualification Names
+                Cadet Year
+            </th>
+            <th>
+                Cadet Form
+            </th>
+            <th>
+                Cadet Gender
+            </th>
+            <th>
+                Cadet Rank
+            </th>
+            <th>
+                Cadet Platoon
+            </th>
+            <th>
+                Cadet Section
+            </th>
+            <th>
+                Qualification Name
+            </th>
+            <th>
+                Cadet Mark
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Attendance
+            </th>
+            <th>
+                Date of Register
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var cadet in Model.Cadets)
         {
-            <tr>
-                <td>
-                    @cadet.Surname
-                </td>
-                <td>
-                    @cadet.Qualifications.Count
-                </td>
-                <td>
-                    @* displays qualification names and passmarks with line breaks *@
-                    <table class="table-secondary bg-secondary">
-                        <th>
-                            Qualification Name
-                        </th>
-                        <th>
-                            Pass Mark
-                        </th>
-                        <th>
-                            Cadet's Mark
-                        </th>
+        <tr>
+            <td>
+                @cadet.Surname, @cadet.KnownAs
+            </td>
+            <td>
+                @cadet.Age
+            </td>
+            <td>
+                @cadet.Year
+            </td>
+            <td>
+                @cadet.Form
+            </td>
+            <td>
+                @cadet.Gender
+            </td>
+            <td>
+                @cadet.Rank
+            </td>
+            <td>
+                @cadet.Platoon
+            </td>
+            <td>
+                @cadet.Section
+            </td>
+            <td>
+                @if (cadet.Qualifications.Count > 0)
+                {
+                    <table class="table">
                         @foreach (var qualification in cadet.Qualifications)
                         {
                             <tr>
-                                @qualification.Qualification.Name
+                                <td>
+                                    @qualification.Qualification.Name
+                                </td>
                             </tr>
-                            <tr>
-                                @qualification.Qualification.PassMark
-                            </tr>
-                            <tr>
-                                @qualification.cadMark
-                            </tr>   
-                            <br />
                         }
                     </table>
-                </td>
-            </tr>
+                }
+            </td>
+            <td>
+                @if (cadet.Qualifications.Count > 0)
+                {
+                    <table class="table">
+                        @foreach (var qualification in cadet.Qualifications)
+                        {
+                            <tr>
+                                <td>
+                                    @qualification.cadMark
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </td>
+            <td>
+                @if (cadet.Qualifications.Count > 0)
+                {
+                    <table class="table">
+                        @foreach (var qualification in cadet.Qualifications)
+                        {
+                            <tr>
+                                <td>
+                                    @qualification.Passed
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </td>
+            <td>
+                @if (cadet.Registers.Count > 0)
+                {
+                    <table class="table">
+                        @foreach (var register in cadet.Registers)
+                        {
+                            <tr>
+                                <td>
+                                    @register.Register.Attended
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </td>
+            <td>
+                @if (cadet.Registers.Count > 0)
+                {
+                    <table class="table">
+                        @foreach (var register in cadet.Registers)
+                        {
+                            <tr>
+                                <td>
+                                    @register.Register.DateOfReg.ToShortDateString()
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

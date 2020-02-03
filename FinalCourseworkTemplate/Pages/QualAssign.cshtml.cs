@@ -24,7 +24,7 @@ namespace FinalCourseworkTemplate
         [BindProperty]
         public string cadetName { get; set; }
 
-        public bool resultPass = false;
+        public string resultPass = "Failed";
 
 
         public QualAssignModel(FinalCourseworkTemplateContext context)
@@ -78,7 +78,7 @@ namespace FinalCourseworkTemplate
 
                     if(qualEntry.cadetMark >= qualQuer[0].PassMark)
                     {
-                        resultPass = true;
+                        resultPass = "Passed";
                     }
 
                     if (cadQual.Count > 0)

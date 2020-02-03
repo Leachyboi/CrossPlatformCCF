@@ -11,7 +11,7 @@ namespace FinalCourseworkTemplate.Models
         public int CadetId { get; set; }
         public int QualificationId { get; set; }
         public int cadMark { get; set; }
-        public bool Passed { get; set; }
+        public string Passed { get; set; }
         public Cadet Cadet { get; set; }
         public Qualification Qualification { get; set; }
     }
